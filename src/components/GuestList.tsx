@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
 import * as XLSX from 'xlsx'
+import { Trash2, Download } from 'lucide-react'
 
 interface Guest {
   id: string
@@ -300,9 +301,9 @@ export default function RSVPList() {
         {/* RIGHT */}
         <button
           onClick={exportToExcel}
-          className="bg-black text-white px-4 py-2 rounded-lg text-sm hover:opacity-90 transition"
+          className="bg-black text-white px-4 py-2 rounded-full text-sm hover:opacity-90 transition flex justify-center items-center gap-1"
         >
-          Download Excel
+          <Download size={18} />
         </button>
 
       </div>
@@ -350,7 +351,7 @@ export default function RSVPList() {
                   }
                   className="text-xs text-red-500 hover:underline"
                 >
-                  Delete
+                  <Trash2 size={18} />
                 </button>
 
               </div>
