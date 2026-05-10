@@ -70,16 +70,11 @@ export default function RSVPSection() {
 
   const handleSubmit = async () => {
     if (hasAgeError) return
-    if (!form.name || !form.email || !form.attending) {
+    if (!form.name || !form.email || !form.attending || guests.some((g) => !g.name || !g.age)) {
       setError('Please fill in all required fields.')
       return
     }
-
-    const hasEmptyGuestAge = guests.some((g) => g.age === '')
-    if (hasEmptyGuestAge) {
-      setError('Please enter age for all guests.')
-      return
-    }
+    
 
     setSubmitting(true)
     setError(null)
@@ -184,12 +179,12 @@ export default function RSVPSection() {
       <div className="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm">
 
         {/* Header */}
-        <h2 className="text-xl font-medium text-gray-900 mb-1">RSVP</h2>
+        <h2 className="text-xl font-medium text-gray-900">RSVP</h2>
         <p className="text-sm text-gray-500 mb-6">
           Please fill out your details to confirm your attendance.
         </p>
 
-
+        <hr className="my-6 border-gray-100" />
 
         <div className="grid grid-cols-2 gap-3 mb-3">
           <div className="flex flex-col gap-1">
@@ -246,11 +241,12 @@ export default function RSVPSection() {
               />
             </div>
 
-            <label className="text-xs text-gray-500">Additional Guests</label>
+            <label className="text-xs text-gray-500">Additional Guests </label>
+            
 
             {guests.length > 0 && (
               <div className="grid grid-cols-[1fr_80px_32px] gap-2 mb-2">
-                <span className="text-xs text-gray-400">Name</span>
+                <span className="text-xs text-gray-400">Name <span className="text-red-400">*</span></span>
                 <span className="text-xs text-gray-400">Age <span className="text-red-400">*</span></span>
                 <span />
               </div>
@@ -318,7 +314,7 @@ export default function RSVPSection() {
                 placeholder="Share your well wishes..."
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
-                rows={3}
+                rows={7}
                 className="px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 bg-white resize-none"
               />
             </div>
