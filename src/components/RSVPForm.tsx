@@ -15,13 +15,6 @@ interface FormData {
   message: string
 }
 
-const EMPTY_FORM: FormData = {
-  name: '',
-  email: '',
-  attending: '',
-  dietary_restrictions: '',
-  message: '',
-}
 
 let guestCounter = 0
 

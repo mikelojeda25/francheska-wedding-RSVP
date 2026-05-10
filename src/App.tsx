@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
-import RSVPSection from './components/Rsvpform'
+import RSVPSection from './components/RSVPForm'
 import RSVPList from './components/GuestList'
 
 export default function App() {
