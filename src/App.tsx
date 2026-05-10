@@ -1,6 +1,5 @@
-import RSVPSection from './components/RSVPSection'
+import RSVPSection from './components/RSVPForm'
 
 export default function App() {
-  console.log('URL:', import.meta.env.VITE_SUPABASE_URL)
   return <RSVPSection />
 }
