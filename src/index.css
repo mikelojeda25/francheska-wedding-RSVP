@@ -1,1 +1,25 @@
 @import "tailwindcss";
+
+@theme {
+  --color-wedding-softgray: #E2E2E2;
+  --color-wedding-warmcream: #F5F1E9;
+  --color-wedding-slate: #3A414A;
+  --color-wedding-steel: #7A8DA6;
+  --color-wedding-gold: #C2A378;
+  --color-wedding-grey: #797B84;
+  --color-wedding-darkcream: #DCD4C7;
+  --color-wedding-grey: #b0aeae;
+  --color-wedding-babyblue: #86afcd;
+  --color-wedding-maroon: #7D2E2E;
+
+  /*METALLIC GRADIENT*/
+  /*bg-wedding-gold-metallic bg-clip-text text-transparent*/
+  --background-image-wedding-gold-metallic: linear-gradient(
+    45deg,
+    #937341 0%,   /* Dark Gold */
+    #C2A378 25%,  /* Base Gold */
+    #c9bf8f 60%,  /* Highlight/Kintab */
+    #C2A378 75%,  /* Base Gold */
+    #937341 100%  /* Dark Gold */
+  );
+}

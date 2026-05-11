@@ -233,14 +233,12 @@ export default function RSVPSection() {
                 className="h-9 px-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 bg-white"
               />
             </div>
-
-            <label className="text-xs text-gray-500">Additional Guests </label>
             
 
             {guests.length > 0 && (
               <div className="grid grid-cols-[1fr_80px_32px] gap-2 mb-2">
-                <span className="text-xs text-gray-400">Name <span className="text-red-400">*</span></span>
-                <span className="text-xs text-gray-400">Age <span className="text-red-400">*</span></span>
+                <span className="text-xs text-gray-400">Guest's Name <span className="text-red-400">*</span></span>
+                <span className="text-xs text-gray-400">Guest's Age <span className="text-red-400">*</span></span>
                 <span />
               </div>
             )}
@@ -283,17 +281,14 @@ export default function RSVPSection() {
               </div>
             ))}
 
-            <button
-              onClick={addGuest}
-              className="w-full mt-1 py-2 px-3 text-sm text-gray-500 border border-dashed border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-700 transition-colors flex items-center justify-center gap-1"
-            >
-              + Add guest
-            </button>
-
-            <div className="mt-4 inline-flex items-center gap-2 bg-gray-50 rounded-full px-3 py-1.5">
-              <span className="text-xs text-gray-500">Total attendees:</span>
-              <span className="text-sm font-medium text-gray-800">{totalAttendees}</span>
-            </div>
+            {guests.length === 0 && (
+              <button
+                onClick={addGuest}
+                className="w-full mt-1 py-2 px-3 text-sm text-gray-500 border border-dashed border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-700 transition-colors flex items-center justify-center gap-1"
+              >
+                + Add guest
+              </button>
+            )}
           </>
         )}
 
