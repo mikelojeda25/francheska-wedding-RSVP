@@ -64,7 +64,7 @@ export default function Home() {
         </div>
 
         {/* RSVP Button */}
-        <WeddingButton label="RSVP Now" onClick={() => navigate('/rsvp')} />
+        <WeddingButton />
 
         {/* Countdown */}
         <div className="absolute bottom-20 hidden md:block">
