@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import RSVPForm from './components/RSVPForm'
 import Home from './components/Home'
 import RSVPList from './components/GuestList'
+import Navbar from './components/Navbar'
 
 export default function App() {
   return (
@@ -10,6 +11,7 @@ export default function App() {
         path="/"
         element={
           <>
+            <Navbar />
             <Home />
             <RSVPForm />
           </>

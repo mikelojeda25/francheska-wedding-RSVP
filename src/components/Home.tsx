@@ -16,7 +16,7 @@ export default function Home() {
     />
 
     {/* Overlay */}
-    <div className="absolute inset-0 bg-black/65" />
+    <div className="absolute inset-0 bg-black/75" />
 
     {/* Content */}
     <div className="relative z-10 flex h-full flex-col items-center justify-center">
@@ -54,10 +54,12 @@ export default function Home() {
         <p className="mt-2 text-xl tracking-[0.25em] mt-5 opacity-70 hidden md:block text-white">
             Casa Macoto Beach Resort • July 12, 2026
         </p>
-
         </div>
+
+       
+
         {/* Countdown Mobile*/}
-        <div className="md:hidden scale-80 pb-5 pt-10">
+        <div className="md:hidden scale-80 pb-5">
         <Countdown />
         </div>
 
