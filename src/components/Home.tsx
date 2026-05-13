@@ -18,7 +18,7 @@ export default function Home() {
     <div className="absolute inset-0 bg-black/40" />
 
     {/* Content */}
-    <div className="relative z-10 flex h-full flex-col items-center justify-center pt-20">
+    <div className="relative z-10 flex h-full flex-col items-center justify-center">
         <div className="text-center text-white px-6 mb-8">
 
         {/* Desktop */}
@@ -29,9 +29,9 @@ export default function Home() {
             Rhandy & Francheska
         </h1>
 
-        {/* Mobile */}
+        {/* Mobile */} 
         <h1
-            className="lg:hidden text-[5rem] leading-none font-light tracking-wide italic"
+            className="lg:hidden text-[4rem] leading-none font-light tracking-wide italic"
             style={{ fontFamily: "'Great Vibes', cursive" }}
         >
             <p>Rhandy</p>
