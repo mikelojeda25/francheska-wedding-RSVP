@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+html {
+  scroll-behavior: smooth;
+}
+
 @theme {
   --color-wedding-softgray: #E2E2E2;
   --color-wedding-warmcream: #F5F1E9;
