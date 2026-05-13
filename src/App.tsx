@@ -1,23 +1,34 @@
-import { Routes, Route } from 'react-router-dom'
-import RSVPForm from './components/RSVPForm'
-import Home from './components/Home'
-import RSVPList from './components/GuestList'
-import Navbar from './components/Navbar'
+import { useState } from "react"
+import { Routes, Route } from "react-router-dom"
+import Loader from "./components/Loader"
+import RSVPForm from "./components/RSVPForm"
+import Home from "./components/Home"
+import RSVPList from "./components/GuestList"
+import Navbar from "./components/Navbar"
 
 export default function App() {
+  const [loading, setLoading] = useState(true)
+
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <>
-            <Navbar />
-            <Home />
-            <RSVPForm />
-          </>
-        }
-      />
-      <Route path="/list" element={<RSVPList />} />
-    </Routes>
+    <>
+      {loading && <Loader onFinish={() => setLoading(false)} />}
+
+      {!loading && (
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <Navbar />
+                <Home />
+                <RSVPForm />
+              </>
+            }
+          />
+
+          <Route path="/list" element={<RSVPList />} />
+        </Routes>
+      )}
+    </>
   )
 }
