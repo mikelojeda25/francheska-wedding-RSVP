@@ -23,7 +23,7 @@ export default function Home() {
 
         {/* Desktop */}
         <h1
-            className="hidden lg:block text-9xl font-light tracking-wide italic"
+            className="hidden md:block text-9xl font-light tracking-wide italic"
             style={{ fontFamily: "'Great Vibes', cursive" }}
         >
             Rhandy & Francheska
@@ -31,27 +31,39 @@ export default function Home() {
 
         {/* Mobile */} 
         <h1
-            className="lg:hidden text-[4rem] leading-none font-light tracking-wide italic"
+            className="md:hidden text-[4.5rem] leading-none font-light tracking-wide "
             style={{ fontFamily: "'Great Vibes', cursive" }}
         >
             <p>Rhandy</p>
             <p className="text-[3rem]">&</p>
             <p>Francheska</p>
         </h1>
-
-        <p className="mt-4 text-sm md:text-base tracking-widest uppercase opacity-80">
+        
+        <p className="mt-4 tracking-[0.25em] font-bold uppercase opacity-80 text-[1rem] lg:text-[1.25rem] lg:font-medium lg:tracking-[0.75em]">
             Wedding Celebration
         </p>
-        <p className="mt-2 text-xs md:text-sm opacity-70">
-            Save the Date • 2026
+
+        {/* Info Mobile*/}
+        <p className="mt-2 text-xs md:text-sm opacity-70 block md:hidden">
+            Casa Macoto Beach Resort • July 12, 2026
         </p>
+
+        {/* Info*/}
+                <p className="mt-2 md:text-sm opacity-70 hidden md:block text-white">
+            Casa Macoto Beach Resort • July 12, 2026
+        </p>
+
+        </div>
+        {/* Countdown Mobile*/}
+        <div className="md:hidden scale-80 pb-10">
+        <Countdown />
         </div>
 
         {/* RSVP Button */}
         <WeddingButton label="RSVP Now" onClick={() => navigate('/rsvp')} />
 
         {/* Countdown */}
-        <div className="absolute bottom-20">
+        <div className="absolute bottom-20 hidden md:block">
         <Countdown />
         </div>
     </div>
