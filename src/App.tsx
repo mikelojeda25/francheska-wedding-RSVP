@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { motion } from "framer-motion"
 import { Routes, Route } from "react-router-dom"
 import Loader from "./components/Loader"
 import RSVPForm from "./components/RSVPForm"
@@ -13,7 +14,7 @@ export default function App() {
     <>
       {loading && <Loader onFinish={() => setLoading(false)} />}
 
-      {!loading && (
+      <div style={{ visibility: loading ? "hidden" : "visible" }}>
         <Routes>
           <Route
             path="/"
@@ -25,10 +26,9 @@ export default function App() {
               </>
             }
           />
-
           <Route path="/list" element={<RSVPList />} />
         </Routes>
-      )}
+      </div>
     </>
   )
 }
