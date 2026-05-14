@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { motion } from "framer-motion"
 import { Routes, Route } from "react-router-dom"
 import Loader from "./components/Loader"
 import RSVPForm from "./components/RSVPForm"
