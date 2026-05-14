@@ -82,7 +82,7 @@ export default function Home() {
         </div>
 
         {/* Countdown Mobile */}
-        <motion.div {...fadeUp(0.45)} className="md:hidden scale-80 pb-5">
+        <motion.div {...fadeUp(0.45)} className="md:hidden scale-80 pb-10">
           <Countdown />
         </motion.div>
 

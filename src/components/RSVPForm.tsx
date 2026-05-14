@@ -133,7 +133,7 @@ export default function RSVPSection() {
   
 
   return (
-    <div id="RSVPForm" className="max-w-xl mx-auto py-12 px-4">
+    <div id="RSVPForm" className="max-w-xl mx-auto py-12 px-4 h-screen">
       {/* Success Modal */}
       {submitted && (
         <div
