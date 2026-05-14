@@ -19,7 +19,7 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 w-full z-50 bg-transparent text-white">
       
       {/* DESKTOP */}
-      <div className="hidden lg:flex items-center justify-between px-60 py-6">
+      <div className="hidden lg:flex items-center justify-between px-[12%] py-6">
 
         {/* LEFT LOGO */}
         <div className="flex items-center gap-2 text-xl tracking-widest font-light"
