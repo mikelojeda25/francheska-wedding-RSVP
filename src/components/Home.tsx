@@ -3,10 +3,14 @@ import Countdown from './Countdown';
 import WeddingButton from './WeddingButton';
 import { Heart } from "lucide-react"
 
-const fadeUp = (delay: number) => ({
+const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
-  transition: { delay: 2.5 + delay, duration: 0.8, ease: "easeOut" }
+  transition: {
+    delay,
+    duration: 0.8,
+    ease: "easeOut" as const,
+  },
 })
 
 export default function Home() {
