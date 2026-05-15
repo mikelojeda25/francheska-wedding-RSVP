@@ -17,29 +17,30 @@ export default function LoveNote() {
   return (
     <section
       id="Lovenote"
-      className="relative w-full min-h-screen flex-col flex items-center justify-center bg-wedding-slate overflow-hidden "
+      className="relative w-full min-h-screen flex-col flex items-center justify-center bg-wedding-slate overflow-hidden px-5"
     >
-
+    
       <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 2 }}
           style={{ fontFamily: "Playfair Display, serif" }}
-          className="-mt-15"
+          className="absolute top-30 text-center w-full"
         >
-          <h1 className="text-center text-5xl md:text-6xl font-semibold text-wedding-warmcream tracking-[0.8rem]">
+        <h1
+          className="text-center text-5xl md:text-7xl text-wedding-warmcream font-bold tracking-widest drop-shadow-lg"
+          style={{ fontFamily: '"Great Vibes", cursive' }}
+        >
           Love Note
-          </h1>
-          
-
-          <p className="text-center text-wedding-softgray mt-2">
-            A quiet promise between two souls
-          </p>
-          
-        </motion.div>
-
+        </h1>
+                
+        <p className="text-center text-xl text-wedding-softgray mt-2 font-['Cormorant_Garamond'] text-md italic font-light tracking-wide">
+          A quiet promise between two souls
+        </p>
         
+      </motion.div>
+
 
       {/* Animated Background Blobs */}
       <motion.div
@@ -70,6 +71,20 @@ export default function LoveNote() {
         className="absolute w-[260px] h-[260px] bg-wedding-steel/20 rounded-full blur-2xl left-[20%]"
       />
 
+      {/* Flowers */}
+      
+      <motion.img
+        src="/images/corner.webp"
+        className="absolute h-[70%] object-cover z-10 bottom-0 left-30"
+        alt="Love Note"
+        initial={{ scale: 0.6, opacity: 0 }}
+        whileInView={{ scale: 1, opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{
+          duration: 1.5,
+          ease: "easeOut",
+        }}
+      />
       
       {/* Content */}
       <div className="relative w-full max-w-[1400px]">
@@ -78,8 +93,8 @@ export default function LoveNote() {
           whileInView={{ opacity: 1, scale: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 2.5, ease: "easeOut" }}
-          className="mt-12 bg-white/10 backdrop-blur-xl border border-wedding-softgray/30 rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row"
-        >
+          className="mt-50 md:mt-40 bg-white/10 backdrop-blur-xl border border-wedding-softgray/30 rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row"
+        > 
           {/* Image */}
           <div className="md:w-1/2 h-[300px] md:h-auto">
             <img
@@ -90,21 +105,23 @@ export default function LoveNote() {
           </div>
 
           {/* Text */}
-          <div className="md:w-1/2 p-8 md:p-12 space-y-6">
+          <div className="md:w-1/2 p-8 md:p-12 space-y-6 justify-between flex flex-col">
             <div>
-              <h2 className="text-wedding-babyblue font-semibold">Groom</h2>
-              <p className="text-wedding-warmcream leading-relaxed">
-                Sample groom message. Three sentences of commitment, love, and
-                future promise together.
-              </p>
-            </div>
+              <div>
+                <h2 className="text-wedding-babyblue font-semibold">Groom</h2>
+                <p className="text-wedding-warmcream leading-relaxed">
+                  Sample groom message. Three sentences of commitment, love, and
+                  future promise together.
+                </p>
+              </div>
 
-            <div>
-              <h2 className="text-wedding-babyblue font-semibold">Bride</h2>
-              <p className="text-wedding-warmcream leading-relaxed">
-                Sample bride message. Emotional, soft, and heartfelt expression
-                of trust and love.
-              </p>
+              <div>
+                <h2 className="text-wedding-babyblue font-semibold mt-10">Bride</h2>
+                <p className="text-wedding-warmcream leading-relaxed">
+                  Sample bride message. Emotional, soft, and heartfelt expression
+                  of trust and love.
+                </p>
+              </div>
             </div>
 
             <div className="pt-4 border-t border-wedding-softgray/20">
