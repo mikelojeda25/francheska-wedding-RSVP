@@ -15,7 +15,7 @@ const fadeUp = (delay: number) => ({
 
 export default function Home() {
   return (
-    <section className="relative h-screen w-full overflow-hidden">
+    <section id="home" className="relative h-screen w-full overflow-hidden">
 
       {/* Background Images */}
       <div
@@ -50,7 +50,12 @@ export default function Home() {
             style={{ fontFamily: "'Great Vibes', cursive" }}
           >
             <span>Rhandy</span>
+            <motion.div
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+            >
             <Heart className="w-8 h-8 text-[#C9A84C]" />
+            </motion.div>
             <span>Francheska</span>
           </motion.h1>
 

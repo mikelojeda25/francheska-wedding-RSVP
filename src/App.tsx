@@ -5,6 +5,7 @@ import RSVPForm from "./components/RSVPForm"
 import Home from "./components/Home"
 import RSVPList from "./components/GuestList"
 import Navbar from "./components/Navbar"
+import LoveNote from "./components/LoveNote"
 
 export default function App() {
   const [loading, setLoading] = useState(true)
@@ -21,6 +22,7 @@ export default function App() {
               <>
                 <Navbar />
                 <Home />
+                <LoveNote />
                 <RSVPForm />
               </>
             }

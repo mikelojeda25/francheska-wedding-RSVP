@@ -12,8 +12,15 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  // ONLY CHANGE: explicit href mapping (important fix)
   const links = [
-    "Home", "Love Note", "Details", "The Entourage", "Gift Guide", "Rules", "RSVP"
+    { label: "Home", href: "#home" },
+    { label: "Love Note", href: "#Lovenote" },
+    { label: "Details", href: "#details" },
+    { label: "The Entourage", href: "#the-entourage" },
+    { label: "Gift Guide", href: "#gift-guide" },
+    { label: "Rules", href: "#rules" },
+    { label: "RSVP", href: "#RSVPForm" }
   ]
 
   return (
@@ -23,7 +30,8 @@ export default function Navbar() {
 
       {/* DESKTOP */}
       <div className="hidden lg:flex items-center justify-between px-[12%] py-6">
-        <div className="flex items-center gap-2 text-xl tracking-widest font-light"
+        <div
+          className="flex items-center gap-2 text-xl tracking-widest font-light"
           style={{ fontFamily: "'Great Vibes', cursive" }}
         >
           R <Heart className="w-4 h-4 text-[#C9A84C]" /> F
@@ -33,12 +41,12 @@ export default function Navbar() {
           {links.map((item, i) => (
             <motion.a
               key={i}
-              href={`#${item.toLowerCase().replace(/ /g, "-")}`}
+              href={item.href}
               className="hover:text-[#C9A84C] transition-colors"
               whileHover={{ y: -2 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              {item}
+              {item.label}
             </motion.a>
           ))}
         </div>
@@ -73,11 +81,11 @@ export default function Navbar() {
             {links.map((item, i) => (
               <a
                 key={i}
-                href={`#${item.toLowerCase().replace(/ /g, "-")}`}
+                href={item.href}
                 onClick={() => setOpen(false)}
                 className="hover:text-[#C9A84C] transition"
               >
-                {item}
+                {item.label}
               </a>
             ))}
           </motion.div>

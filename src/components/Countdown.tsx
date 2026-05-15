@@ -36,9 +36,9 @@ export default function Countdown() {
 
   return (
     <div className="flex flex-col items-center gap-2 mt-6">
-      <p className="text-[16px] uppercase tracking-[0.5em] text-[#C9A84C] font-bold font-['Cormorant_Garamond']">
-        COUNTDOWN
-      </p>
+      <p className="text-[18px] uppercase tracking-[0.5em] text-[#C9A84C] font-bold">
+  Until we say I do
+</p>
 
       <div className="flex items-center gap-3">
         {units.map(({ value, suffix }, i) => (
