@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Routes, Route } from "react-router-dom"
 import Loader from "./components/Loader"
 import RSVPForm from "./components/RSVPForm"
@@ -7,8 +7,13 @@ import RSVPList from "./components/GuestList"
 import Navbar from "./components/Navbar"
 import LoveNote from "./components/LoveNote"
 
+
 export default function App() {
   const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   return (
     <>
