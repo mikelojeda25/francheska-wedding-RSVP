@@ -10,6 +10,7 @@ import Details from "./components/Details"
 import Entourage from "./components/Entourage"
 import GiftGuide from "./components/GiftGuide"
 
+
 export default function App() {
   const [loading, setLoading] = useState(true)
 
