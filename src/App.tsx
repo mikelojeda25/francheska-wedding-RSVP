@@ -6,6 +6,7 @@ import Home from "./components/Home"
 import RSVPList from "./components/GuestList"
 import Navbar from "./components/Navbar"
 import LoveNote from "./components/LoveNote"
+import Details from "./components/Details"
 
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
                 <Navbar />
                 <Home />
                 <LoveNote />
+                <Details />
                 <RSVPForm />
               </>
             }
