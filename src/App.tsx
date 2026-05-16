@@ -9,6 +9,7 @@ import LoveNote from "./components/LoveNote"
 import Details from "./components/Details"
 import Entourage from "./components/Entourage"
 import GiftGuide from "./components/GiftGuide"
+import Rules from "./components/Rules"
 
 
 export default function App() {
@@ -34,6 +35,7 @@ export default function App() {
                 <Details />
                 <Entourage />
                 <GiftGuide />
+                <Rules />
                 <RSVPForm />
               </>
             }

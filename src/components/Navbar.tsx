@@ -19,7 +19,7 @@ export default function Navbar() {
     { label: "Details", href: "#Details" },
     { label: "The Entourage", href: "#Entourage" },
     { label: "Gift Guide", href: "#GiftGuide" },
-    { label: "Rules", href: "#rules" },
+    { label: "Rules", href: "#Rules" },
     { label: "RSVP", href: "#RSVPForm" }
   ]
 

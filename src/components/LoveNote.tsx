@@ -161,7 +161,7 @@ export default function LoveNote() {
 
         @keyframes flowerReveal {
           from { opacity: 0; transform: scale(0.6) translate3d(0, 0, 0); }
-          to   { opacity: 0.8; transform: scale(1) translate3d(0, 0, 0); }
+          to   { opacity: 1; transform: scale(1) translate3d(0, 0, 0); }
         }
 
         @keyframes flowerSway {
