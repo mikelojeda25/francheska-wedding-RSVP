@@ -45,7 +45,7 @@ const gentleRules: Rule[] = [
   },
   {
     icon: ShieldAlert,
-    text: "Out of respect for the sacred moment, we ask that phones be silenced and kept away during the ceremony. Our photographer will capture everything beautifully — just be present with us! 📷",
+    text: "Out of respect for the ceremony, we kindly ask that phones be silenced and kept away during the program. Feel free to take photos and videos. We’d love to see and appreciate your captured moments with us! 📷",
   },
 ];
 
@@ -161,14 +161,12 @@ export default function Rules() {
             <span className="absolute -bottom-2 -left-2 w-5 h-5 border-b-2 border-l-2 border-wedding-gold/40 z-10" />
             <span className="absolute -bottom-2 -right-2 w-5 h-5 border-b-2 border-r-2 border-wedding-gold/40 z-10" />
 
-            <div className="relative overflow-hidden rounded-2xl border border-wedding-gold/20 h-full min-h-[675px]">
-              {/* Image */}
+            <div className="relative overflow-hidden rounded-2xl border border-wedding-gold/20">
               <img
                 src="/images/Rules.webp"
                 alt="Casa Macoto Venue Rules"
-                className="absolute inset-0 w-full h-full object-cover object-center"
+                className="w-full h-auto object-cover"
               />
-              
             </div>
           </motion.div>
 

@@ -7,11 +7,24 @@ const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
   transition: {
-    delay: 2.5 + delay, // ← ito yung nawala
+    delay: 2.5 + delay,
     duration: 0.8,
     ease: "easeInOut" as const,
   },
 });
+
+// Decorative divider component
+const Divider = ({ className = "" }: { className?: string }) => (
+  <div className={`flex items-center justify-center gap-3 ${className}`}>
+    <div className="h-px w-16 bg-gradient-to-r from-transparent to-white/60" />
+    <div className="w-2 h-2 rounded-full bg-white" />
+    <div className="h-px w-6 bg-white/50" />
+    <div className="w-4 h-4 rounded-full border-2 bg-white" />
+    <div className="h-px w-6 bg-white/50" />
+    <div className="w-2 h-2 rounded-full bg-white" />
+    <div className="h-px w-16 bg-gradient-to-l from-transparent to-white/60" />
+  </div>
+)
 
 export default function Home() {
   return (
@@ -28,61 +41,94 @@ export default function Home() {
       />
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/75" />
+      <div className="absolute inset-0 bg-wedding-grey/70" />
 
       {/* Content */}
       <div className="relative z-10 flex h-full flex-col items-center justify-center">
         <div className="text-center text-white px-6 mb-8">
 
-          {/* Desktop Title */}
-          <motion.h1
-            {...fadeUp(0)}
-            className="hidden md:block text-9xl font-light tracking-wide italic"
-            style={{ fontFamily: "'Great Vibes', cursive" }}
-          >
-            Rhandy & Francheska
-          </motion.h1>
-
-          {/* Mobile Title */}
-          <motion.h1
-            {...fadeUp(0)}
-            className="mt-20 md:hidden text-[2.25rem] leading-none font-light tracking-wide [text-shadow:0_2px_10px_rgba(201,168,76,0.35)] flex flex-row justify-center items-center gap-4"
-            style={{ fontFamily: "'Great Vibes', cursive" }}
-          >
-            <span>Rhandy</span>
-            <motion.div
-            animate={{ scale: [1, 1.1, 1] }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+          {/* ── DESKTOP ── */}
+          <div className="hidden md:block">
+            <motion.h1
+              {...fadeUp(0)}
+              className="text-9xl font-light tracking-wide italic"
+              style={{ fontFamily: "'Great Vibes', cursive", textShadow: "2px 2px 0px #C2A378" }}
             >
-            <Heart className="w-8 h-8 text-[#C9A84C]" />
+              Rhandy & Francheska
+            </motion.h1>
+
+            {/* Desktop Divider */}
+            <motion.div {...fadeUp(0.1)} className="mt-4 flex items-center justify-center gap-3">
+              <div className="h-px w-24 bg-gradient-to-r from-transparent to-white/60" />
+              <div className="w-2 h-2 rounded-full bg-white" />
+              <div className="h-px w-6 bg-white/50" />
+              <div className="w-3 h-3 rounded-full border-4 bg-white" />
+              <div className="h-px w-6 bg-white/50" />
+              <div className="w-2 h-2 rounded-full bg-white" />
+              <div className="h-px w-24 bg-gradient-to-l from-transparent to-white/60" />
             </motion.div>
-            <span>Francheska</span>
-          </motion.h1>
+            <motion.p
+              {...fadeUp(0.15)}
+              className="mt-4 text-white tracking-[0.75em] font-medium uppercase text-[2rem]"
+              style={{ textShadow: "2px 1px 0px #C2A378" }}
+            >
+              Wedding Celebration
+            </motion.p>
 
-          {/* Wedding Celebration */}
-          <motion.p
-            {...fadeUp(0.15)}
-            className="mt-4 text-[#D4AF37] tracking-[0.1em] font-bold uppercase text-[1.25rem] lg:text-[2rem] lg:font-medium lg:tracking-[0.75em] [text-shadow:2px_2px_6px_rgba(0,0,0,1)] font-['Cormorant_Garamond']"
-          >
-            Wedding Celebration
-          </motion.p>
+            <motion.p
+              {...fadeUp(0.3)}
+              className="mt-5 text-xl tracking-[0.25em]  text-white/80"
+              style={{ textShadow: "2px 1px 0px #C2A378" }}
+            >
+              Casa Macoto Beach Resort • July 25, 2026
+            </motion.p>
+          </div>
 
-          {/* Info Mobile */}
-          <motion.p
-            {...fadeUp(0.3)}
-            className="mt-2 text-[1.25rem] opacity-70 block md:hidden [text-shadow:2px_2px_6px_rgba(0,0,0,1)] font-['Cormorant_Garamond']"
-          >
-            <div>Casa Macoto Beach Resort</div>
-            <div>July 12, 2026</div>
-          </motion.p>
+          {/* ── MOBILE ── */}
+          <div className="md:hidden">
+            <motion.h1
+              {...fadeUp(0)}
+              className="mt-20 text-[2.25rem] leading-none font-light tracking-wide flex flex-row justify-center items-center gap-4"
+              style={{ fontFamily: "'Great Vibes', cursive", textShadow: "2px 2px 0px #C2A378" }}
+            >
+              <span>Rhandy</span>
+              <motion.div
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <Heart
+                  className="w-8 h-8"
+                  fill="#7A8DA6"
+                  stroke="#ffffff"
+                  strokeWidth={0.5}
+                />
+              </motion.div>
+              <span>Francheska</span>
+            </motion.h1>
 
-          {/* Info Desktop */}
-          <motion.p
-            {...fadeUp(0.3)}
-            className="mt-5 text-xl tracking-[0.25em] opacity-70 hidden md:block text-white"
-          >
-            Casa Macoto Beach Resort • July 12, 2026
-          </motion.p>
+            {/* Mobile Divider */}
+            <motion.div {...fadeUp(0.1)} className="mt-4">
+              <Divider />
+            </motion.div>
+
+            <motion.p
+              {...fadeUp(0.15)}
+              className="mt-4 text-white tracking-[0.2em] font-bold uppercase text-[1.25rem]"
+              style={{ textShadow: "2px 1px 0px #C2A378" }}
+            >
+              Wedding Celebration
+            </motion.p>
+
+            {/* Mobile Divider below subtitle */}
+            <motion.p
+              {...fadeUp(0.3)}
+              className="mt-4 text-[1.1rem] font-bold tracking-[0.05rem] text-white/80"
+              style={{ textShadow: "2px 1px 0px #C2A378" }}
+            >
+              <div>Casa Macoto Beach Resort</div>
+              <div className="mt-0.5">July 25, 2026</div>
+            </motion.p>
+          </div>
 
         </div>
 

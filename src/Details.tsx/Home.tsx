@@ -28,7 +28,7 @@ export default function Home() {
       />
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/75" />
+      <div className="absolute inset-0 bg-[#boaeae]/75" />
 
       {/* Content */}
       <div className="relative z-10 flex h-full flex-col items-center justify-center">

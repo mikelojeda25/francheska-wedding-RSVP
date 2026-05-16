@@ -12,10 +12,9 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  // ONLY CHANGE: explicit href mapping (important fix)
   const links = [
     { label: "Home", href: "#home" },
-    { label: "Love Note", href: "#Lovenote" },
+    { label: "Devotion", href: "#Devotion" },
     { label: "Details", href: "#Details" },
     { label: "The Entourage", href: "#Entourage" },
     { label: "Gift Guide", href: "#GiftGuide" },
@@ -24,25 +23,30 @@ export default function Navbar() {
   ]
 
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 text-white transition-all duration-500 ${
-      scrolled ? "bg-wedding-slate shadow-md" : "bg-transparent"
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
+      scrolled 
+        ? "bg-wedding-babyblue/90 backdrop-blur-md shadow-lg" 
+        : "bg-wedding-babyblue/60 backdrop-blur-sm"
     }`}>
 
       {/* DESKTOP */}
-      <div className="hidden lg:flex items-center justify-between px-[12%] py-6">
+      <div className="hidden lg:flex items-center justify-between px-[12%] py-5">
+        
+        {/* Logo */}
         <div
-          className="flex items-center gap-2 text-xl tracking-widest font-light"
+          className="flex items-center gap-2 text-2xl tracking-widest font-light text-white"
           style={{ fontFamily: "'Great Vibes', cursive" }}
         >
-          R <Heart className="w-4 h-4 text-[#C9A84C]" /> F
+          R <Heart className="w-4 h-4" fill="#ffffff" stroke="#ffffff" /> F
         </div>
 
-        <div className="flex gap-8 text-[11px] tracking-[0.25em] uppercase">
+        {/* Links */}
+        <div className="flex gap-8 text-[11px] tracking-[0.25em] uppercase text-white/90">
           {links.map((item, i) => (
             <motion.a
               key={i}
               href={item.href}
-              className="hover:text-[#C9A84C] transition-colors"
+              className="hover:text-white hover:border-b hover:border-white/60 pb-0.5 transition-all"
               whileHover={{ y: -2 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
@@ -52,18 +56,18 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* MOBILE */}
+      {/* MOBILE TOPBAR */}
       <div className="flex items-center justify-between px-6 py-5 lg:hidden">
         <div
-          className="flex items-center gap-2 text-lg leading-none pt-2"
+          className="flex items-center gap-2 text-lg leading-none pt-2 text-white"
           style={{ fontFamily: "'Great Vibes', cursive" }}
         >
           <span className="flex items-center leading-none">R</span>
-          <Heart className="w-4 h-4 text-[#C9A84C] flex-shrink-0" />
+          <Heart className="w-4 h-4 flex-shrink-0" fill="#ffffff" stroke="#ffffff" />
           <span className="flex items-center leading-none">F</span>
         </div>
 
-        <button onClick={() => setOpen(!open)} className="relative z-50">
+        <button onClick={() => setOpen(!open)} className="relative z-50 text-white">
           {open ? <X /> : <Menu />}
         </button>
       </div>
@@ -76,18 +80,24 @@ export default function Navbar() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "tween", duration: 0.35 }}
-            className="fixed top-0 right-0 h-screen w-[92%] bg-wedding-babyblue/70 backdrop-blur-md flex flex-col items-center justify-center gap-8 text-sm tracking-[0.2em] uppercase"
+            className="fixed top-0 right-0 h-screen w-[92%] bg-wedding-babyblue backdrop-blur-md flex flex-col items-center justify-center gap-8 text-sm tracking-[0.2em] uppercase text-white/90 text-xl"
           >
+
             {links.map((item, i) => (
-              <a
+              <motion.a
                 key={i}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className="hover:text-[#C9A84C] transition"
+                className="hover:text-white border-b border-transparent hover:border-white/40 pb-0.5 transition-all"
+                whileHover={{ x: 4 }}
+                transition={{ type: "spring", stiffness: 300 }}
               >
                 {item.label}
-              </a>
+              </motion.a>
             ))}
+
+            {/* Decorative heart bottom */}
+            <Heart className="absolute bottom-10 w-6 h-6 text-white/30" fill="white" stroke="white" />
           </motion.div>
         )}
       </AnimatePresence>

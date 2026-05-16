@@ -11,11 +11,11 @@ export default function Loader({ onFinish }: { onFinish?: () => void }) {
   }, [])
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden bg-black">
+    <div className="fixed inset-0 z-50 overflow-hidden bg-wedding-babyblue">
 
       {/* GOLD VIGNETTE GLOW */}
       <motion.div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#C9A84C]/10 blur-3xl"
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-white/10 blur-3xl"
         animate={isLeaving ? { opacity: 0 } : { scale: [1, 1.15, 1], opacity: [0.4, 0.6, 0.4] }}
         transition={isLeaving ? { duration: 0.4, ease: "easeInOut" } : { duration: 3, repeat: Infinity, ease: "easeInOut" }}
       />
@@ -41,7 +41,7 @@ export default function Loader({ onFinish }: { onFinish?: () => void }) {
 
           {/* MONOGRAM */}
           <div
-            className="flex items-center gap-3 text-[#C9A84C]"
+            className="flex items-center gap-3 text-white"
             style={{ fontFamily: "'Cormorant Garamond', serif" }}
           >
             <span className="text-5xl tracking-widest">R</span>
@@ -61,7 +61,7 @@ export default function Loader({ onFinish }: { onFinish?: () => void }) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 0.7, y: 0 }}
             transition={{ delay: 0.5, duration: 1 }}
-            className="mt-4 text-[#C9A84C]/80 tracking-[0.4em] text-xs uppercase"
+            className="mt-4 text-white/80 tracking-[0.4em] text-xs uppercase"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             A Wedding Invitation

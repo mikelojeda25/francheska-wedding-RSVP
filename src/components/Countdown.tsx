@@ -36,7 +36,8 @@ export default function Countdown() {
 
   return (
     <div className="flex flex-col items-center gap-2 mt-6">
-      <p className="text-[18px] uppercase tracking-[0.5em] text-[#C9A84C] font-bold">
+      <p className="text-[18px] uppercase tracking-[0.5em] text-white font-bold"
+      style={{ textShadow: "2px 1px 0px #C2A378" }}>
   Until we say I do
 </p>
 
@@ -44,10 +45,14 @@ export default function Countdown() {
         {units.map(({ value, suffix }, i) => (
           <div key={suffix} className="flex items-center gap-3">
             <div className="flex items-end gap-1">
-              <span className="text-3xl font-bold text-white tabular-nums drop-shadow-md">
+              <span className="text-3xl font-bold text-white tabular-nums drop-shadow-md"style={{
+              textShadow: "2px 1px 0px #C2A378"
+            }}>
                 {pad(value)}
               </span>
-              <span className="text-2xl font-bold tracking-widest text-[#C9A84C] drop-shadow-md">
+              <span className="text-2xl font-bold tracking-widest text-white drop-shadow-md"style={{
+              textShadow: "2px 1px 0px #C2A378"
+            }}>
                 {suffix}
               </span>
             </div>

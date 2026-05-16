@@ -119,8 +119,8 @@ export default function LoveNote() {
 
   return (
     <section
-      id="Lovenote"
-      className="relative w-full min-h-screen flex-col flex items-center justify-center bg-wedding-slate overflow-hidden py-20 px-5"
+      id="Devotion"
+      className="relative w-full min-h-screen flex-col flex items-center justify-center bg-wedding-slate overflow-hidden py-20 lg:py-30 px-5"
     >
       <style>{`
         @keyframes heartEnter {
@@ -271,10 +271,10 @@ export default function LoveNote() {
             className="text-center text-4xl md:text-7xl text-wedding-warmcream font-bold tracking-widest drop-shadow-lg"
             style={{ fontFamily: '"Great Vibes", cursive' }}
           >
-            Love Note
+            Devotion
           </h1>
           <p className="text-center text-sm md:text-xl text-wedding-softgray mt-2 font-['Cormorant_Garamond'] text-md italic font-light tracking-wide">
-            A quiet promise between two souls
+            My beloved is mine, and I am his
           </p>
         </div>
 
@@ -318,23 +318,20 @@ export default function LoveNote() {
           <div className="md:w-1/2 p-8 md:p-12 space-y-6 justify-between flex flex-col">
             <div>
               <div>
-                <h2 className="text-wedding-babyblue font-semibold">Groom</h2>
+                <h2 className="text-wedding-babyblue font-semibold text-center text-[2rem]"
+                 style={{ fontFamily: '"Great Vibes", cursive' }}>
+                  Anchor In Love
+                </h2>
                 <p className="text-wedding-warmcream leading-relaxed">
-                  Sample groom message. Three sentences of commitment, love, and future promise together.
-                </p>
-              </div>
-              <div>
-                <h2 className="text-wedding-babyblue font-semibold mt-10">Bride</h2>
-                <p className="text-wedding-warmcream leading-relaxed">
-                  Sample bride message. Emotional, soft, and heartfelt expression of trust and love.
+                  <img src="images/WeddingLogo.png" alt="Anchor" />
                 </p>
               </div>
             </div>
             <div className="pt-4 border-t border-wedding-softgray/20">
               <p className="italic text-wedding-softgray text-sm">
-                "Therefore what God has joined together, let no one separate."
+                "And the two shall become one flesh.' So they are no longer two but one flesh. What therefore God has joined together, let not man separate."
               </p>
-              <span className="text-xs text-wedding-softgray">— Mark 10:9</span>
+              <span className="text-xs text-wedding-softgray">— Mark 10:8-9</span>
             </div>
           </div>
         </div>
