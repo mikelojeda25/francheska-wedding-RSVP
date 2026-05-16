@@ -24,17 +24,13 @@ const officiant = {
 const groups: EntourageGroup[] = [
   {
     title: "Parents of the Bride",
-    members: [
-      { name: "Mr. Roberto & Mrs. Lourdes dela Cruz" },
-    ],
+    members: [{ name: "Mr. Roberto & Mrs. Lourdes dela Cruz" }],
     layout: "single",
     rowGroup: "parents",
   },
   {
     title: "Parents of the Groom",
-    members: [
-      { name: "Mr. Danilo & Mrs. Carmelita Reyes" },
-    ],
+    members: [{ name: "Mr. Danilo & Mrs. Carmelita Reyes" }],
     layout: "single",
     rowGroup: "parents",
   },
@@ -131,126 +127,61 @@ const blobVariants = {
     transition: {
       duration: 8 + i * 2,
       repeat: Infinity,
-      ease: "easeInOut",
+      ease: "easeInOut" as const,
     },
   }),
 };
 
+const serif = { fontFamily: '"Cormorant Garamond", serif' } as const;
+
 // ─── Decorative divider ───────────────────────────────────────────────────────
-function GoldDivider() {
-  return (
-    <div id="Entourage" className="flex items-center justify-center gap-3 my-2 pt">
-      <div className="h-px w-12 bg-wedding-gold-metallic opacity-60" />
-      <div className="w-1 h-1 rounded-full bg-wedding-gold opacity-80" />
-      <div className="h-px w-12 bg-wedding-gold-metallic opacity-60" />
-    </div>
-  );
-}
-
-// ─── Officiant card ───────────────────────────────────────────────────────────
-function OffciantCard() {
+function GoldDivider({ align = "center" }: { align?: "center" | "left" }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 1.2, ease: "easeOut" }}
-      className="relative mx-auto max-w-sm w-full mb-10"
+      className={`flex items-center gap-3 my-2 ${align === "left" ? "justify-start" : "justify-center"}`}
     >
-      {/* Corner accents */}
-      <span className="absolute -top-2 -left-2 w-5 h-5 border-t-2 border-l-2 border-wedding-gold/60" />
-      <span className="absolute -top-2 -right-2 w-5 h-5 border-t-2 border-r-2 border-wedding-gold/60" />
-      <span className="absolute -bottom-2 -left-2 w-5 h-5 border-b-2 border-l-2 border-wedding-gold/60" />
-      <span className="absolute -bottom-2 -right-2 w-5 h-5 border-b-2 border-r-2 border-wedding-gold/60" />
-
-      <div className="bg-wedding-slate border border-wedding-gold/30 rounded-xl px-10 py-8 text-center shadow-lg shadow-black/30">
-        {/* Small cross */}
-        <div className="flex items-center justify-center mb-4">
-          <svg width="20" height="24" viewBox="0 0 20 24" fill="none" className="opacity-70">
-            <rect x="8" y="0" width="4" height="24" rx="2" fill="#C2A378"/>
-            <rect x="0" y="7" width="20" height="4" rx="2" fill="#C2A378"/>
-          </svg>
-        </div>
-        <p
-          className="text-xs uppercase tracking-[0.3em] text-wedding-gold/70 mb-3"
-          style={{ fontFamily: '"Cormorant Garamond", serif' }}
-        >
-          Officiating Minister
-        </p>
-        <h3
-          className="text-2xl md:text-3xl font-light text-wedding-warmcream leading-tight"
-          style={{ fontFamily: '"Cormorant Garamond", serif' }}
-        >
-          {officiant.name}
-        </h3>
-        <GoldDivider />
-        <p
-          className="text-wedding-grey text-xs tracking-widest uppercase mt-2"
-          style={{ fontFamily: '"Cormorant Garamond", serif' }}
-        >
-          {officiant.church}
-        </p>
-      </div>
+      <motion.div className="h-px w-12 bg-wedding-gold-metallic opacity-60" />
+      <motion.div className="w-1 h-1 rounded-full bg-wedding-gold opacity-80" />
+      <motion.div className="h-px w-12 bg-wedding-gold-metallic opacity-60" />
     </motion.div>
   );
 }
 
-// ─── Group section ─────────────────────────────────────────────────────────────
-function EntourageSection({ group, index }: { group: EntourageGroup; index: number }) {
-  const isSingle = group.layout === "single";
-  const isPair   = group.layout === "pair";
-
+function GroupHeader({
+  title,
+  subtitle,
+  mobile = false,
+}: {
+  title: string;
+  subtitle?: string;
+  mobile?: boolean;
+}) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 1, delay: index * 0.05, ease: "easeOut" }}
-      className="w-full mb-10"
+      className={
+        mobile
+          ? "md:hidden text-left mb-3"
+          : "hidden md:block text-center mb-6"
+      }
     >
-      {/* Group header */}
-      <div className="text-center mb-6">
-        <p
-          className="text-xs uppercase tracking-[0.35em] text-wedding-gold/70 mb-1"
-          style={{ fontFamily: '"Cormorant Garamond", serif' }}
-        >
-          {group.subtitle ?? "\u00A0"}
-        </p>
-        <h3
-          className="text-2xl md:text-3xl text-wedding-warmcream font-light"
-          style={{ fontFamily: '"Cormorant Garamond", serif' }}
-        >
-          {group.title}
-        </h3>
-        <GoldDivider />
-      </div>
-
-      {/* Members */}
-      {isSingle ? (
-        <div className="flex justify-center">
-          <PersonPill person={group.members[0]} highlight />
-        </div>
-      ) : isPair ? (
-        <div className="flex flex-wrap justify-center gap-4">
-          {group.members.map((m, i) => (
-            <PersonPill key={i} person={m} />
-          ))}
-        </div>
-      ) : (
-        <div className="flex flex-wrap justify-center gap-4">
-          {group.members.map((m, i) => (
-            <PersonPill key={i} person={m} />
-          ))}
-        </div>
-      )}
+      <motion.p className="text-xs uppercase tracking-[0.35em] text-wedding-gold/70 mb-1" style={serif}>
+        {subtitle ?? "\u00A0"}
+      </motion.p>
+      <motion.h3
+        className={`${mobile ? "text-xl" : "text-2xl md:text-3xl"} text-wedding-warmcream font-light`}
+        style={serif}
+      >
+        {title}
+      </motion.h3>
+      <GoldDivider align={mobile ? "left" : "center"} />
     </motion.div>
   );
 }
 
-// ─── Person pill ──────────────────────────────────────────────────────────────
+// ─── Person pill (desktop) ─────────────────────────────────────────────────────
 function PersonPill({ person, highlight = false }: { person: EntouragePerson; highlight?: boolean }) {
   return (
-    <div
+    <motion.div
       className={`
         flex flex-col items-center text-center px-8 py-4 rounded-full border transition-colors
         ${highlight
@@ -261,19 +192,181 @@ function PersonPill({ person, highlight = false }: { person: EntouragePerson; hi
     >
       <span
         className={`text-base md:text-xl font-light leading-snug ${highlight ? "text-wedding-warmcream" : "text-wedding-softgray"}`}
-        style={{ fontFamily: '"Cormorant Garamond", serif' }}
+        style={serif}
       >
         {person.name}
       </span>
       {person.role && (
-        <span
-          className="text-xs text-wedding-gold/60 tracking-widest uppercase mt-1"
-          style={{ fontFamily: '"Cormorant Garamond", serif' }}
-        >
+        <span className="text-xs text-wedding-gold/60 tracking-widest uppercase mt-1" style={serif}>
           {person.role}
         </span>
       )}
-    </div>
+    </motion.div>
+  );
+}
+
+function MobileMemberList({
+  members,
+  highlight = false,
+}: {
+  members: EntouragePerson[];
+  highlight?: boolean;
+}) {
+  return (
+    <ul className="md:hidden space-y-0">
+      {members.map((person, i) => (
+        <li
+          key={i}
+          className="flex items-baseline justify-between gap-4 py-2.5 border-b border-wedding-softgray/10 last:border-0"
+        >
+          <span
+            className={`text-[15px] leading-snug ${highlight ? "text-wedding-warmcream" : "text-wedding-softgray"}`}
+            style={serif}
+          >
+            {person.name}
+          </span>
+          {person.role && (
+            <span
+              className="text-[10px] text-wedding-gold/60 tracking-wider uppercase shrink-0"
+              style={serif}
+            >
+              {person.role}
+            </span>
+          )}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function DesktopMembers({
+  members,
+  layout,
+}: {
+  members: EntouragePerson[];
+  layout?: EntourageGroup["layout"];
+}) {
+  if (layout === "single") {
+    return (
+      <motion.div className="hidden md:flex justify-center">
+        <PersonPill person={members[0]} highlight />
+      </motion.div>
+    );
+  }
+
+  return (
+    <motion.div className="hidden md:flex flex-wrap justify-center gap-4">
+      {members.map((m, i) => (
+        <PersonPill key={i} person={m} />
+      ))}
+    </motion.div>
+  );
+}
+
+// ─── Officiant card ───────────────────────────────────────────────────────────
+function OffciantCard() {
+  return (
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="md:hidden w-full mb-6 border-l-2 border-wedding-gold/50 pl-4 py-1"
+      >
+        <motion.p className="text-[10px] uppercase tracking-[0.28em] text-wedding-gold/70 mb-1" style={serif}>
+          Officiating Minister
+        </motion.p>
+        <motion.h3 className="text-xl font-light text-wedding-warmcream leading-snug" style={serif}>
+          {officiant.name}
+        </motion.h3>
+        <motion.p className="text-wedding-grey text-[11px] tracking-wide uppercase mt-1" style={serif}>
+          {officiant.church}
+        </motion.p>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+        className="hidden md:block relative mx-auto max-w-sm w-full mb-10"
+      >
+        <span className="absolute -top-2 -left-2 w-5 h-5 border-t-2 border-l-2 border-wedding-gold/60" />
+        <span className="absolute -top-2 -right-2 w-5 h-5 border-t-2 border-r-2 border-wedding-gold/60" />
+        <span className="absolute -bottom-2 -left-2 w-5 h-5 border-b-2 border-l-2 border-wedding-gold/60" />
+        <span className="absolute -bottom-2 -right-2 w-5 h-5 border-b-2 border-r-2 border-wedding-gold/60" />
+
+        <motion.div className="bg-wedding-slate border border-wedding-gold/30 rounded-xl px-10 py-8 text-center shadow-lg shadow-black/30">
+          <motion.div className="flex items-center justify-center mb-4">
+            <svg width="20" height="24" viewBox="0 0 20 24" fill="none" className="opacity-70">
+              <rect x="8" y="0" width="4" height="24" rx="2" fill="#C2A378" />
+              <rect x="0" y="7" width="20" height="4" rx="2" fill="#C2A378" />
+            </svg>
+          </motion.div>
+          <motion.p className="text-xs uppercase tracking-[0.3em] text-wedding-gold/70 mb-3" style={serif}>
+            Officiating Minister
+          </motion.p>
+          <motion.h3 className="text-2xl md:text-3xl font-light text-wedding-warmcream leading-tight" style={serif}>
+            {officiant.name}
+          </motion.h3>
+          <GoldDivider />
+          <motion.p className="text-wedding-grey text-xs tracking-widest uppercase mt-2" style={serif}>
+            {officiant.church}
+          </motion.p>
+        </motion.div>
+      </motion.div>
+    </>
+  );
+}
+
+// ─── Group section ─────────────────────────────────────────────────────────────
+function EntourageSection({ group, index }: { group: EntourageGroup; index: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 1, delay: index * 0.05, ease: "easeOut" }}
+      className="w-full mb-6 md:mb-10"
+    >
+      <GroupHeader title={group.title} subtitle={group.subtitle} mobile />
+      <GroupHeader title={group.title} subtitle={group.subtitle} />
+      <MobileMemberList members={group.members} highlight={group.layout === "single"} />
+      <DesktopMembers members={group.members} layout={group.layout} />
+    </motion.div>
+  );
+}
+
+function RowGroupSection({ siblings, index }: { siblings: EntourageGroup[]; index: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 1, delay: index * 0.05, ease: "easeOut" }}
+      className="w-full mb-6 md:mb-10"
+    >
+      {/* Mobile — stacked lists */}
+      <motion.div className="md:hidden space-y-5">
+        {siblings.map((s) => (
+          <motion.div key={s.title}>
+            <GroupHeader title={s.title} subtitle={s.subtitle} mobile />
+            <MobileMemberList members={s.members} highlight />
+          </motion.div>
+        ))}
+      </motion.div>
+
+      {/* Desktop — side by side pills */}
+      <motion.div className="hidden md:flex gap-6 justify-center items-start">
+        {siblings.map((s) => (
+          <motion.div key={s.title} className="flex-1 flex flex-col items-center text-center min-w-0">
+            <GroupHeader title={s.title} subtitle={s.subtitle} />
+            <PersonPill person={s.members[0]} highlight />
+          </motion.div>
+        ))}
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -282,53 +375,63 @@ export default function Entourage() {
   return (
     <section
       id="Entourage"
-      className="relative w-full flex flex-col items-center bg-wedding-slate overflow-hidden py-24 px-5"
+      className="relative w-full flex flex-col items-center bg-wedding-slate overflow-hidden py-16 md:py-24 px-5"
     >
-      {/* Blobs — same as LoveNote */}
-      <motion.div custom={0} variants={blobVariants} animate="animate"
-        className="absolute w-[420px] h-[420px] bg-wedding-babyblue/25 rounded-full blur-3xl top-[-120px] left-[-120px]" />
-      <motion.div custom={1} variants={blobVariants} animate="animate"
-        className="absolute w-[500px] h-[500px] bg-white/10 rounded-full blur-3xl bottom-[-180px] right-[-140px]" />
-      <motion.div custom={2} variants={blobVariants} animate="animate"
-        className="absolute w-[320px] h-[320px] bg-wedding-gold/20 rounded-full blur-2xl top-[30%] left-[65%]" />
-      <motion.div custom={3} variants={blobVariants} animate="animate"
-        className="absolute w-[260px] h-[260px] bg-wedding-steel/20 rounded-full blur-2xl left-[20%]" />
+      <motion.div
+        custom={0}
+        variants={blobVariants}
+        animate="animate"
+        className="absolute w-[420px] h-[420px] bg-wedding-babyblue/25 rounded-full blur-3xl top-[-120px] left-[-120px]"
+      />
+      <motion.div
+        custom={1}
+        variants={blobVariants}
+        animate="animate"
+        className="absolute w-[500px] h-[500px] bg-white/10 rounded-full blur-3xl bottom-[-180px] right-[-140px]"
+      />
+      <motion.div
+        custom={2}
+        variants={blobVariants}
+        animate="animate"
+        className="absolute w-[320px] h-[320px] bg-wedding-gold/20 rounded-full blur-2xl top-[30%] left-[65%]"
+      />
+      <motion.div
+        custom={3}
+        variants={blobVariants}
+        animate="animate"
+        className="absolute w-[260px] h-[260px] bg-wedding-steel/20 rounded-full blur-2xl left-[20%]"
+      />
 
-      <div className="relative w-full max-w-5xl">
-
-        {/* ── Header ── */}
+      <motion.div className="relative w-full max-w-5xl">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1.8 }}
-          className="text-center mb-16"
+          className="text-center mb-10 md:mb-16"
         >
-          <h1
+          <motion.h1
             className="text-5xl md:text-7xl text-wedding-warmcream font-bold tracking-widest drop-shadow-lg pt-5"
             style={{ fontFamily: '"Great Vibes", cursive' }}
           >
             Entourage
-          </h1>
-          <p
+          </motion.h1>
+          <motion.p
             className="text-wedding-softgray mt-2 tracking-wide text-sm md:text-base italic font-light"
-            style={{ fontFamily: '"Cormorant Garamond", serif' }}
+            style={serif}
           >
             The beloved people walking beside us
-          </p>
+          </motion.p>
         </motion.div>
 
-        {/* ── Officiant — first & most prominent ── */}
         <OffciantCard />
 
-        {/* ── Horizontal rule ── */}
-        <div className="flex items-center gap-4 mb-16 opacity-30">
-          <div className="flex-1 h-px bg-wedding-softgray" />
-          <div className="w-1.5 h-1.5 rounded-full bg-wedding-gold rotate-45" />
-          <div className="flex-1 h-px bg-wedding-softgray" />
-        </div>
+        <motion.div className="flex items-center gap-4 mb-10 md:mb-16 opacity-30">
+          <motion.div className="flex-1 h-px bg-wedding-softgray" />
+          <motion.div className="w-1.5 h-1.5 rounded-full bg-wedding-gold rotate-45" />
+          <motion.div className="flex-1 h-px bg-wedding-softgray" />
+        </motion.div>
 
-        {/* ── Entourage groups — row-aware ── */}
         {(() => {
           const rendered = new Set<string>();
           return groups.map((group, i) => {
@@ -337,42 +440,13 @@ export default function Entourage() {
               rendered.add(group.rowGroup);
               const siblings = groups.filter((g) => g.rowGroup === group.rowGroup);
               return (
-                <motion.div
-                  key={group.rowGroup}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1, delay: i * 0.05, ease: "easeOut" }}
-                  className="w-full mb-10 flex flex-col sm:flex-row gap-12 sm:gap-6 justify-center items-center sm:items-start"
-                >
-                  {siblings.map((s) => (
-                    <div key={s.title} className="flex-1 flex flex-col items-center text-center min-w-0">
-                      <div className="text-center mb-6 w-full">
-                        <p
-                          className="text-xs uppercase tracking-[0.35em] text-wedding-gold/70 mb-1"
-                          style={{ fontFamily: '"Cormorant Garamond", serif' }}
-                        >
-                          {s.subtitle ?? "\u00A0"}
-                        </p>
-                        <h3
-                          className="text-2xl md:text-3xl text-wedding-warmcream font-light"
-                          style={{ fontFamily: '"Cormorant Garamond", serif' }}
-                        >
-                          {s.title}
-                        </h3>
-                        <GoldDivider />
-                      </div>
-                      <PersonPill person={s.members[0]} highlight />
-                    </div>
-                  ))}
-                </motion.div>
+                <RowGroupSection key={group.rowGroup} siblings={siblings} index={i} />
               );
             }
             return <EntourageSection key={group.title} group={group} index={i} />;
           });
         })()}
-
-      </div>
+      </motion.div>
     </section>
   );
 }
