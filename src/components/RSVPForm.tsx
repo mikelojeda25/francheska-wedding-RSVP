@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { CheckCircle2, XCircle, UserPlus, Trash2, AlertTriangle, Heart } from 'lucide-react'
 import { supabase } from '../lib/supabaseClient'
 
 interface Guest {
@@ -14,7 +16,6 @@ interface FormData {
   dietary_restrictions: string
   message: string
 }
-
 
 let guestCounter = 0
 
@@ -67,7 +68,6 @@ export default function RSVPSection() {
       setError('Please fill in all required fields.')
       return
     }
-    
 
     setSubmitting(true)
     setError(null)
@@ -116,7 +116,7 @@ export default function RSVPSection() {
       }
 
       setSubmitted(true)
-  setLocked(true)
+      setLocked(true)
     } catch (err: unknown) {
       console.error('RSVP Error:', err)
       const message = err instanceof Error ? err.message : JSON.stringify(err)
@@ -130,202 +130,315 @@ export default function RSVPSection() {
     setSubmitted(false)
   }
 
-  
+  const inputBase =
+    'h-10 px-3 text-sm border border-wedding-darkcream rounded-xl focus:outline-none focus:border-wedding-steel bg-white text-wedding-slate placeholder:text-wedding-grey/60 transition-colors'
 
   return (
-    <div id="RSVPForm" className="max-w-xl mx-auto py-12 px-4 h-screen">
+    <section
+      id="RSVPForm"
+      className="relative w-full bg-wedding-warmcream overflow-hidden pt-17 lg:pt-25 pb-20"
+    >
+      {/* Subtle decorative blobs */}
+      <div className="pointer-events-none absolute top-0 left-0 w-72 h-72 rounded-full bg-wedding-babyblue/10 blur-3xl -translate-x-1/2 -translate-y-1/2" />
+      <div className="pointer-events-none absolute bottom-0 right-0 w-72 h-72 rounded-full bg-wedding-gold/10 blur-3xl translate-x-1/2 translate-y-1/2" />
+
       {/* Success Modal */}
-      {submitted && (
-        <div
-          className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4"
-          onClick={handleClose}
-        >
-          <div
-            className="bg-white rounded-2xl p-8 max-w-sm w-full shadow-xl relative text-center"
-            onClick={(e) => e.stopPropagation()}
+      <AnimatePresence>
+        {submitted && (
+          <motion.div
+            className="fixed inset-0 bg-wedding-slate/30 backdrop-blur-sm flex items-center justify-center z-50 px-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={handleClose}
           >
-            <button
-              onClick={handleClose}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
-              aria-label="Close"
+            <motion.div
+              className="bg-white rounded-2xl p-10 max-w-sm w-full shadow-xl relative text-center border border-wedding-darkcream"
+              initial={{ opacity: 0, scale: 0.92, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.92, y: 20 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+              onClick={(e) => e.stopPropagation()}
             >
-              ✕
-            </button>
+              <button
+                onClick={handleClose}
+                className="absolute top-4 right-4 text-wedding-grey hover:text-wedding-slate transition-colors"
+                aria-label="Close"
+              >
+                ✕
+              </button>
 
-            <div className="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-4">
-              <svg className="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
+                className="w-14 h-14 rounded-full bg-wedding-babyblue/20 flex items-center justify-center mx-auto mb-5"
+              >
+                <Heart className="text-wedding-steel" size={24} strokeWidth={1.5} />
+              </motion.div>
 
-            <h2 className="text-lg font-medium text-gray-900 mb-1">
-              {form.attending === 'yes' ? 'RSVP Confirmed!' : 'Thanks for letting us know!'}
-            </h2>
-            <p className="text-sm text-gray-500">
-              {form.attending === 'yes'
-                ? `Thanks, ${form.name}. We're expecting ${totalAttendees} ${totalAttendees === 1 ? 'attendee' : 'attendees'}.`
-                : `Sorry you can't make it, ${form.name}. You'll be missed!`}
-            </p>
-          </div>
-        </div>
-      )}
-      <div className="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm">
+              <h2 className="text-lg font-medium text-wedding-slate mb-2">
+                {form.attending === 'yes' ? 'RSVP Confirmed!' : 'Thanks for letting us know!'}
+              </h2>
+              <p className="text-sm text-wedding-grey leading-relaxed">
+                {form.attending === 'yes'
+                  ? `Thank you, ${form.name}. We're so excited to celebrate with ${totalAttendees === 1 ? 'you' : `you and your ${guests.length} ${guests.length === 1 ? 'guest' : 'guests'}`}!`
+                  : `We'll miss you, ${form.name}. Thank you for letting us know!`}
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="w-full px-5 flex flex-col items-center">
 
         {/* Header */}
-        <h2 className="text-xl font-medium text-gray-900">RSVP</h2>
-        <p className="text-sm text-gray-500 mb-6">
-          Please fill out your details to confirm your attendance.
-        </p>
-
-        <hr className="my-6 border-gray-100" />
-
-        <div className="grid grid-cols-2 gap-3 mb-3">
-          <div className="flex flex-col gap-1">
-            <label className="text-xs text-gray-500">Name <span className="text-red-400">*</span></label>
-            <input
-              type="text"
-              placeholder="Juan dela Cruz"
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-              className="h-9 px-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 bg-white"
-            />
-          </div>
-          <div className="flex flex-col gap-1">
-            <label className="text-xs text-gray-500">Email <span className="text-red-400">*</span></label>
-            <input
-              type="email"
-              placeholder="juan@email.com"
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-              className="h-9 px-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 bg-white"
-            />
-          </div>
-        </div>
-
-        {/* Will you be attending? */}
-        <div className="flex flex-col gap-1 mb-4">
-          <label className="text-xs text-gray-500">Will you be attending? <span className="text-red-400">*</span></label>
-          <select
-            value={form.attending}
-            onChange={(e) => handleAttendingChange(e.target.value)}
-            className={`h-9 px-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 bg-white ${
-              form.attending === '' ? 'text-gray-400' : 'text-gray-900'
-            }`}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.5 }}
+          className="text-center mb-12"
+        >
+          <h1
+            className="text-5xl md:text-7xl text-wedding-slate font-bold tracking-widest drop-shadow-sm"
           >
-            <option value="" disabled>Please select</option>
-            <option value="yes">✓ Yes, I'll be there!</option>
-            <option value="no">✗ No, I can't make it</option>
-          </select>
-        </div>
+            RSVP
+          </h1>
+          <p
+            className="text-wedding-grey mt-2 tracking-wide text-sm md:text-base"
+            style={{ fontFamily: '"Inter", sans-serif' }}
+          >
+            Please confirm your attendance by May 30, 2026
+          </p>
+        </motion.div>
 
-        {/* YES block — dietary + guests */}
-        {form.attending === 'yes' && (
-          <>
-            <hr className="mb-6 border-gray-100" />
+        {/* Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.15 }}
+          className="w-full max-w-xl bg-white rounded-2xl shadow-sm border border-wedding-darkcream px-8 py-10"
+        >
 
-            <div className="flex flex-col gap-1 mb-4">
-              <label className="text-xs text-gray-500">Dietary Restrictions</label>
+          {/* Name + Email */}
+          <div className="grid grid-cols-2 gap-3 mb-3">
+            <div className="flex flex-col gap-1">
+              <label className="text-xs text-wedding-grey tracking-wide">
+                Name <span className="text-wedding-maroon">*</span>
+              </label>
               <input
                 type="text"
-                placeholder="Vegetarian, vegan, allergies, etc."
-                value={form.dietary_restrictions}
-                onChange={(e) => setForm({ ...form, dietary_restrictions: e.target.value })}
-                className="h-9 px-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 bg-white"
+                placeholder="Juan dela Cruz"
+                value={form.name}
+                disabled={locked}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                className={inputBase}
               />
             </div>
-            
+            <div className="flex flex-col gap-1">
+              <label className="text-xs text-wedding-grey tracking-wide">
+                Email <span className="text-wedding-maroon">*</span>
+              </label>
+              <input
+                type="email"
+                placeholder="juan@email.com"
+                value={form.email}
+                disabled={locked}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                className={inputBase}
+              />
+            </div>
+          </div>
 
-            {guests.length > 0 && (
-              <div className="grid grid-cols-[1fr_80px_32px] gap-2 mb-2">
-                <span className="text-xs text-gray-400">Guest's Name <span className="text-red-400">*</span></span>
-                <span className="text-xs text-gray-400">Guest's Age <span className="text-red-400">*</span></span>
-                <span />
-              </div>
-            )}
+          {/* Attending */}
+          <div className="flex flex-col gap-1 mb-4">
+            <label className="text-xs text-wedding-grey tracking-wide">
+              Will you be attending? <span className="text-wedding-maroon">*</span>
+            </label>
+            <select
+              value={form.attending}
+              disabled={locked}
+              onChange={(e) => handleAttendingChange(e.target.value)}
+              className={`${inputBase} ${form.attending === '' ? 'text-wedding-grey/60' : 'text-wedding-slate'}`}
+            >
+              <option value="" disabled>Please select</option>
+              <option value="yes">✓ Yes, I'll be there!</option>
+              <option value="no">✗ No, I can't make it</option>
+            </select>
+          </div>
 
-            {guests.map((guest) => (
-              <div key={guest.id} className="mb-2">
-                <div className="grid grid-cols-[1fr_80px_32px] gap-2 items-start">
+          {/* YES block */}
+          <AnimatePresence>
+            {form.attending === 'yes' && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.4, ease: 'easeInOut' }}
+                className="overflow-hidden"
+              >
+                <hr className="mb-5 border-wedding-darkcream" />
+
+                <div className="flex flex-col gap-1 mb-4">
+                  <label className="text-xs text-wedding-grey tracking-wide">Dietary Restrictions</label>
                   <input
                     type="text"
-                    placeholder="Guest name"
-                    value={guest.name}
-                    onChange={(e) => updateGuest(guest.id, 'name', e.target.value)}
-                    className="h-9 px-3 text-sm border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 bg-white"
+                    placeholder="Vegetarian, vegan, allergies, etc."
+                    value={form.dietary_restrictions}
+                    disabled={locked}
+                    onChange={(e) => setForm({ ...form, dietary_restrictions: e.target.value })}
+                    className={inputBase}
                   />
-                  <input
-                    type="number"
-                    placeholder="Age"
-                    min={0}
-                    value={guest.age}
-                    onChange={(e) => updateGuest(guest.id, 'age', e.target.value)}
-                    className={`h-9 px-3 text-sm border rounded-lg focus:outline-none bg-white ${
-                      isUnderAge(guest.age)
-                        ? 'border-red-300 focus:border-red-400'
-                        : 'border-gray-200 focus:border-gray-400'
-                    }`}
-                  />
-                  <button
-                    onClick={() => removeGuest(guest.id)}
-                    className="h-9 w-8 flex items-center justify-center rounded-lg border border-gray-200 text-gray-400 hover:bg-red-50 hover:text-red-500 hover:border-red-200 transition-colors"
-                    aria-label="Remove guest"
-                  >
-                    ×
-                  </button>
                 </div>
-                {isUnderAge(guest.age) && (
-                  <p className="text-xs text-red-500 flex items-center gap-1 mt-1">
-                    <span>⚠</span> Guests below 7 years old are not allowed per venue rules.
-                  </p>
+
+                {/* Guest column headers */}
+                {guests.length > 0 && (
+                  <div className="grid grid-cols-[1fr_80px_36px] gap-2 mb-2">
+                    <span className="text-xs text-wedding-grey tracking-wide">
+                      Guest's Name <span className="text-wedding-maroon">*</span>
+                    </span>
+                    <span className="text-xs text-wedding-grey tracking-wide">
+                      Age <span className="text-wedding-maroon">*</span>
+                    </span>
+                    <span />
+                  </div>
                 )}
-              </div>
-            ))}
 
-            {guests.length === 0 && (
-              <button
-                onClick={addGuest}
-                className="w-full mt-1 py-2 px-3 text-sm text-gray-500 border border-dashed border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-700 transition-colors flex items-center justify-center gap-1"
-              >
-                + Add guest
-              </button>
+                {/* Guest rows */}
+                <AnimatePresence initial={false}>
+                  {guests.map((guest) => (
+                    <motion.div
+                      key={guest.id}
+                      initial={{ opacity: 0, y: -8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.25 }}
+                      className="mb-2"
+                    >
+                      <div className="grid grid-cols-[1fr_80px_36px] gap-2 items-start">
+                        <input
+                          type="text"
+                          placeholder="Guest name"
+                          value={guest.name}
+                          disabled={locked}
+                          onChange={(e) => updateGuest(guest.id, 'name', e.target.value)}
+                          className={inputBase}
+                        />
+                        <input
+                          type="number"
+                          placeholder="Age"
+                          min={0}
+                          value={guest.age}
+                          disabled={locked}
+                          onChange={(e) => updateGuest(guest.id, 'age', e.target.value)}
+                          className={`${inputBase} ${isUnderAge(guest.age) ? 'border-wedding-maroon/50 focus:border-wedding-maroon' : ''}`}
+                        />
+                        <button
+                          onClick={() => removeGuest(guest.id)}
+                          disabled={locked}
+                          className="h-10 w-9 flex items-center justify-center rounded-xl border border-wedding-darkcream text-wedding-grey hover:bg-red-50 hover:text-wedding-maroon hover:border-wedding-maroon/30 transition-colors"
+                          aria-label="Remove guest"
+                        >
+                          <Trash2 size={14} strokeWidth={1.5} />
+                        </button>
+                      </div>
+                      {isUnderAge(guest.age) && (
+                        <motion.p
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="text-xs text-wedding-maroon flex items-center gap-1 mt-1"
+                        >
+                          <AlertTriangle size={11} strokeWidth={1.5} />
+                          Guests below 7 years old are not allowed per venue rules.
+                        </motion.p>
+                      )}
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+
+                {/* Add guest button — always visible while attending=yes */}
+                {!locked && (
+                  <button
+                    onClick={addGuest}
+                    className="w-full mt-1 py-2.5 px-3 text-sm text-wedding-steel border border-dashed border-wedding-darkcream rounded-xl hover:bg-wedding-warmcream hover:border-wedding-steel/40 transition-colors flex items-center justify-center gap-2"
+                  >
+                    <UserPlus size={15} strokeWidth={1.5} />
+                    Add a guest
+                  </button>
+                )}
+              </motion.div>
             )}
-          </>
-        )}
+          </AnimatePresence>
 
-        {/* Message — always visible once attending is selected */}
-        {form.attending !== '' && (
-          <>
-            <hr className="my-6 border-gray-100" />
-            <div className="flex flex-col gap-1">
-              <label className="text-xs text-gray-500">Message to the Couple</label>
-              <textarea
-                placeholder="Share your well wishes..."
-                value={form.message}
-                onChange={(e) => setForm({ ...form, message: e.target.value })}
-                rows={7}
-                className="px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 bg-white resize-none"
-              />
-            </div>
-          </>
-        )}
+          {/* Message — visible once attending is selected */}
+          <AnimatePresence>
+            {form.attending !== '' && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.4, ease: 'easeInOut' }}
+                className="overflow-hidden"
+              >
+                <hr className="my-5 border-wedding-darkcream" />
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs text-wedding-grey tracking-wide">Message to the Couple</label>
+                  <textarea
+                    placeholder="Share your well wishes..."
+                    value={form.message}
+                    disabled={locked}
+                    onChange={(e) => setForm({ ...form, message: e.target.value })}
+                    rows={5}
+                    className="px-3 py-2.5 text-sm border border-wedding-darkcream rounded-xl focus:outline-none focus:border-wedding-steel bg-white text-wedding-slate placeholder:text-wedding-grey/60 resize-none transition-colors"
+                  />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-        {/* Error */}
-        {error && (
-          <p className="mt-4 text-sm text-red-500 bg-red-50 border border-red-100 rounded-lg px-4 py-2">
-            {error}
-          </p>
-        )}
+          {/* Error */}
+          <AnimatePresence>
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                className="mt-4 flex items-start gap-2 text-sm text-wedding-maroon bg-red-50 border border-wedding-maroon/20 rounded-xl px-4 py-3"
+              >
+                <XCircle size={15} strokeWidth={1.5} className="mt-0.5 shrink-0" />
+                <span>{error}</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-        {/* Submit */}
-        <button
-          onClick={handleSubmit}
-          disabled={submitting || hasAgeError || locked}
-          className="mt-5 w-full h-10 text-sm font-medium bg-gray-900 text-white rounded-lg hover:bg-gray-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-        >
-          {submitting ? 'Submitting...' : 'Confirm RSVP'}
-        </button>
+          {/* Submit */}
+          <motion.button
+            onClick={handleSubmit}
+            disabled={submitting || hasAgeError || locked}
+            whileTap={{ scale: 0.98 }}
+            className="mt-6 w-full h-11 text-sm font-medium bg-wedding-slate text-white rounded-xl hover:bg-wedding-steel disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+          >
+            {submitting ? (
+              <>
+                <motion.span
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
+                  className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full"
+                />
+                Submitting...
+              </>
+            ) : (
+              <>
+                <CheckCircle2 size={15} strokeWidth={1.5} />
+                Confirm RSVP
+              </>
+            )}
+          </motion.button>
 
+        </motion.div>
       </div>
-    </div>
+    </section>
   )
 }

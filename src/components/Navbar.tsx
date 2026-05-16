@@ -17,8 +17,8 @@ export default function Navbar() {
     { label: "Home", href: "#home" },
     { label: "Love Note", href: "#Lovenote" },
     { label: "Details", href: "#Details" },
-    { label: "The Entourage", href: "#the-entourage" },
-    { label: "Gift Guide", href: "#gift-guide" },
+    { label: "The Entourage", href: "#Entourage" },
+    { label: "Gift Guide", href: "#Gift-Guide" },
     { label: "Rules", href: "#rules" },
     { label: "RSVP", href: "#RSVPForm" }
   ]

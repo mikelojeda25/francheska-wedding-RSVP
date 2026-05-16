@@ -7,7 +7,8 @@ import RSVPList from "./components/GuestList"
 import Navbar from "./components/Navbar"
 import LoveNote from "./components/LoveNote"
 import Details from "./components/Details"
-
+import Entourage from "./components/Entourage"
+import GiftGuide from "./components/GiftGuide"
 
 export default function App() {
   const [loading, setLoading] = useState(true)
@@ -30,6 +31,8 @@ export default function App() {
                 <Home />
                 <LoveNote />
                 <Details />
+                <Entourage />
+                <GiftGuide />
                 <RSVPForm />
               </>
             }
