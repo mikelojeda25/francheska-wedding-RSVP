@@ -168,7 +168,7 @@ export default function LoveNote() {
             Love Note
           </h1>
           <p className="text-center text-sm md:text-xl text-wedding-softgray mt-2 font-['Cormorant_Garamond'] text-md italic font-light tracking-wide">
-            A quiet promise between two souls
+            My beloved is mine, and I am his
           </p>
         </motion.div>
 
