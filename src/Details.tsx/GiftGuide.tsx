@@ -1,18 +1,5 @@
 import { motion } from "framer-motion";
 
-const blobVariants = {
-  animate: (i: number) => ({
-    y: [0, -20, 0],
-    x: [0, 15, 0],
-    scale: [1, 1.1, 1],
-    transition: {
-      duration: 8 + i * 2,
-      repeat: Infinity,
-      ease: "easeInOut",
-    },
-  }),
-};
-
 const qrOptions = [
   {
     image: "/images/QR1.webp",

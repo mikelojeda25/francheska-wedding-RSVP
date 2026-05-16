@@ -1,8 +1,5 @@
 import { motion } from "framer-motion";
-import {
-  Wifi, Home, Clock, Baby, CloudRain, Waves,
-  ShieldAlert, KeyRound, Shirt, CarFront, UserX, CheckSquare,
-} from "lucide-react";
+import { Baby, CloudRain, ShieldAlert } from "lucide-react";
 
 // ─── Blob variants ────────────────────────────────────────────────────────────
 const blobVariants = {
@@ -10,7 +7,7 @@ const blobVariants = {
     y: [0, -20, 0],
     x: [0, 15, 0],
     scale: [1, 1.1, 1],
-    transition: { duration: 8 + i * 2, repeat: Infinity, ease: "easeInOut" },
+    transition: { duration: 8 + i * 2, repeat: Infinity, ease: "easeInOut" as const },
   }),
 };
 
@@ -19,20 +16,6 @@ interface Rule {
   icon: React.ElementType;
   text: string;
 }
-
-const venueRules: Rule[] = [
-  { icon: Wifi,        text: "WiFi Network: CASA MACOTO BEACH RESORT — Password: @ringaylu (same for all extensions)" },
-  { icon: ShieldAlert, text: "Smoking and vaping is strictly NOT allowed indoors. A PHP 5,000 fine will be imposed." },
-  { icon: Home,        text: "Small to medium pets are allowed but must be diapered and vaccinated." },
-  { icon: CheckSquare, text: "Any damage to resort property, amenities, linens, percolator, hair dryer, or fixtures will result in charges and replacement fees." },
-  { icon: KeyRound,    text: "Lost keys will be charged PHP 2,000." },
-  { icon: Waves,       text: "Swimming in the beach is until 6:00 PM. Swimming in the pool is until 10:00 PM." },
-  { icon: Shirt,       text: "Proper swimming attire is required in the pool. No cotton fabric allowed." },
-  { icon: CarFront,    text: "Management shall not be liable for any damage or loss of belongings or vehicles left on the premises." },
-  { icon: UserX,       text: "Management reserves the right to refuse entry for any untoward behavior toward staff or property." },
-  { icon: Clock,       text: "Check-in: 2:00 PM · Check-out: 12:00 Noon. Extensions and early check-in are subject to availability." },
-  { icon: Home,        text: "A security deposit (cash) will be collected upon check-in and refunded upon check-out." },
-];
 
 const gentleRules: Rule[] = [
   {

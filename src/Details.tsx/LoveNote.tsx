@@ -10,15 +10,10 @@ const blobVariants = {
     transition: {
       duration: 8 + i * 2,
       repeat: Infinity,
-      ease: "easeInOut",
+      ease: "easeInOut" as const,
     },
   }),
 };
-
-// Left:  small → med → big  (big is rightmost = closest to title)
-// Right: big → med → small  (big is leftmost = closest to title)
-const leftSizes  = ["", "w-10 h-10", "w-15 h-15"];
-const rightSizes = ["w-15 h-15", "w-10 h-10", ""];
 
 // C = biggest/closest → dims first (0% of cycle)
 // B = middle          → dims at 25% and 75%

@@ -131,7 +131,7 @@ const blobVariants = {
     transition: {
       duration: 8 + i * 2,
       repeat: Infinity,
-      ease: "easeInOut",
+      ease: "easeInOut" as const,
     },
   }),
 };
