@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 
-// ─── Types ──────────────────────────────────────────────────────────────────
+// ─── Types ────────────────────────────────────────────────────────────────────
+type PillColor = "gold" | "pearl" | "dustyblue" | "pink" | "sage" | "violet" | "default";
+
 interface EntouragePerson {
   name: string;
   role?: string;
@@ -10,115 +12,216 @@ interface EntourageGroup {
   title: string;
   subtitle?: string;
   members: EntouragePerson[];
-  layout?: "single" | "pair" | "grid";
-  rowGroup?: string; // groups with same rowGroup render side-by-side
+  columns?: 1 | 2;
+  highlight?: boolean;
+  rowGroup?: string;
+  color?: PillColor;
 }
 
-// ─── Data ───────────────────────────────────────────────────────────────────
-const officiant = {
-  name: "Rev. Emmanuel D. Santos",
-  role: "Officiating Minister",
-  church: "Grace Bible Church of Aringay",
+// ─── Color palettes ───────────────────────────────────────────────────────────
+const colorStyles: Record<
+  PillColor,
+  { border: string; bg: string; text: string; label: string }
+> = {
+  gold: {
+    border: "border-wedding-gold/50",
+    bg: "bg-wedding-gold/10",
+    text: "text-wedding-warmcream",
+    label: "text-wedding-gold/60",
+  },
+  pearl: {
+    border: "border-[#F0EDE8]/50",
+    bg: "bg-[#F0EDE8]/8",
+    text: "text-[#FAF8F5]",
+    label: "text-[#F0EDE8]/55",
+  },
+  dustyblue: {
+    border: "border-[#8FAFC4]/45",
+    bg: "bg-[#8FAFC4]/10",
+    text: "text-[#C9DDE9]",
+    label: "text-[#8FAFC4]/60",
+  },
+  pink: {
+    border: "border-[#D9A0AD]/45",
+    bg: "bg-[#D9A0AD]/10",
+    text: "text-[#F0D3D8]",
+    label: "text-[#D9A0AD]/60",
+  },
+  sage: {
+    border: "border-[#92B89A]/45",
+    bg: "bg-[#92B89A]/10",
+    text: "text-[#CCE2CF]",
+    label: "text-[#92B89A]/60",
+  },
+  violet: {
+    border: "border-[#B8A9D4]/45",
+    bg: "bg-[#B8A9D4]/10",
+    text: "text-[#DDD6F0]",
+    label: "text-[#B8A9D4]/60",
+  },
+  default: {
+    border: "border-wedding-softgray/15",
+    bg: "bg-white/5",
+    text: "text-wedding-softgray",
+    label: "text-wedding-gold/60",
+  },
 };
 
+// ─── Data ─────────────────────────────────────────────────────────────────────
 const groups: EntourageGroup[] = [
   {
     title: "Parents of the Bride",
-    members: [{ name: "Mr. Roberto & Mrs. Lourdes dela Cruz" }],
-    layout: "single",
+    members: [{ name: "Mr. Avelino V. Ruiz & Mrs. Maria Theresa C. Ruiz" }],
+    columns: 1,
+    highlight: true,
+    color: "gold",
     rowGroup: "parents",
   },
   {
     title: "Parents of the Groom",
-    members: [{ name: "Mr. Danilo & Mrs. Carmelita Reyes" }],
-    layout: "single",
+    members: [{ name: "Mr. Hansel B. Wanawan & Mrs. Mauricia W. Wanawan" }],
+    columns: 1,
+    highlight: true,
+    color: "gold",
     rowGroup: "parents",
   },
   {
-    title: "Principal Sponsors",
-    subtitle: "Ninong & Ninang",
+    title: "Ninong",
+    subtitle: "Principal Sponsors",
     members: [
-      { name: "Atty. Fernando & Mrs. Gloria Santos" },
-      { name: "Dr. Ramon & Mrs. Cynthia Villanueva" },
-      { name: "Mr. Jose & Mrs. Marites Castillo" },
-      { name: "Engr. Ricardo & Mrs. Rowena Bautista" },
+      { name: "Bel. Filmore Almeda-Awas" },
+      { name: "Leonardo C. Tagufa" },
+      { name: "Noel Aguinalde" },
+      { name: "Blaisandrew B. Dao-nis" },
+      { name: "Russel Jardiolin" },
+      { name: "Karlos Lanuza" },
+      { name: "John Benter" },
+      { name: "Raymond Ferrer" },
+      { name: "Marcelino Ruiz" },
+      { name: "Ryan Peters" },
+      { name: "Tony Patin" },
+      { name: "Antolin Potpoten" },
+      { name: "Constante Arzadon" },
+      { name: "Albert Deleon" },
+      { name: "Rafael Saltiban" },
+      { name: "Joel Gureta" },
+      { name: "Bryan Jardiolin" },
+      { name: "June Dacoco" },
+      { name: "Ferdie Soriano" },
     ],
-    layout: "grid",
+    columns: 1,
+    color: "dustyblue",
+    rowGroup: "principal",
   },
   {
-    title: "Secondary Sponsors",
-    subtitle: "Veil, Cord & Candle",
+    title: "Ninang",
+    subtitle: "Principal Sponsors",
     members: [
-      { name: "Mr. Marco Villanueva", role: "Veil" },
-      { name: "Ms. Patricia Aguila", role: "Veil" },
-      { name: "Mr. Luis Fernandez", role: "Cord" },
-      { name: "Ms. Angela Ramos", role: "Cord" },
-      { name: "Mr. Paolo Ocampo", role: "Candle" },
-      { name: "Ms. Bianca Torres", role: "Candle" },
+      { name: "Bel. Lotz Almeda-Awas" },
+      { name: "Army Love Martin" },
+      { name: "Marivic Aguinalde" },
+      { name: "Myra P. Dao-nis" },
+      { name: "Maricel Jardiolin" },
+      { name: "Fely W. Lanuza" },
+      { name: "Janice Benter" },
+      { name: "Rosalyn Ferrer" },
+      { name: "Cathy Ruiz" },
+      { name: "Rochelle Peters" },
+      { name: "Jacqueline Patin" },
+      { name: "April Cyprene Potpoten" },
+      { name: "Evinia Arzadon" },
+      { name: "Myline Deleon" },
+      { name: "Grace Guatno" },
+      { name: "Mayanne Czarina Gureta" },
+      { name: "Ellani M. Jardiolin" },
+      { name: "Eliza C. Orquez" },
+      { name: "Evelyn R. Mulleno" },
     ],
-    layout: "grid",
-  },
-  {
-    title: "Maid of Honor",
-    members: [{ name: "Ms. Isabelle Marie dela Cruz" }],
-    layout: "single",
-    rowGroup: "honor",
+    columns: 1,
+    color: "dustyblue",
+    rowGroup: "principal",
   },
   {
     title: "Best Man",
-    members: [{ name: "Mr. Rafael Antonio Reyes" }],
-    layout: "single",
+    members: [{ name: "Arnold Wanawan Chalis Jr." }],
+    columns: 1,
+    highlight: true,
+    color: "pearl",
     rowGroup: "honor",
   },
   {
-    title: "Bridesmaids",
-    members: [
-      { name: "Ms. Sofia Manalo" },
-      { name: "Ms. Camille Navarro" },
-      { name: "Ms. Andrea Lim" },
-      { name: "Ms. Katrina Morales" },
-    ],
-    layout: "grid",
+    title: "Maid of Honor",
+    members: [{ name: "Yvannah Iozsablle Salupen" }],
+    columns: 1,
+    highlight: true,
+    color: "pearl",
+    rowGroup: "honor",
   },
   {
     title: "Groomsmen",
     members: [
-      { name: "Mr. Miguel Santos" },
-      { name: "Mr. Joshua Dela Torre" },
-      { name: "Mr. Christian Aquino" },
-      { name: "Mr. Daniel Cruz" },
+      { name: "Rhain Adriane Arboleda" },
+      { name: "Knight Arren Lanuza" },
+      { name: "Rankine Capuyan" },
+      { name: "Diego A. Wanawan" },
+      { name: "Daniel John Cabading" },
+      { name: "John Raven Gabriz" },
+      { name: "Jalen Jardiolin" },
     ],
-    layout: "grid",
+    columns: 1,
+    color: "violet",
+    rowGroup: "bm-gm",
+  },
+  {
+    title: "Bridesmaids",
+    members: [
+      { name: "Gemalyn Akilith" },
+      { name: "Rhymaea Abigail Arboleda" },
+      { name: "Maxyne Piper Cabading" },
+      { name: "Emma Rachelle Cabading" },
+      { name: "Chloe Blanche Cabading" },
+      { name: "Daf Elise Jardiolin" },
+      { name: "Mia Klarisse Tellez" },
+    ],
+    columns: 1,
+    color: "violet",
+    rowGroup: "bm-gm",
   },
   {
     title: "Flower Girls",
     members: [
-      { name: "Little Mia Villanueva" },
-      { name: "Little Cara Fernandez" },
+      { name: "Riona Arabelle P. Arboleda" },
+      { name: "Atiakah Keefe W. Briones" },
+      { name: "River Lynne Celia Tagufa-Kuong" },
+      { name: "Iara Kyryn G. Wanawan" },
     ],
-    layout: "pair",
+    columns: 2,
+    color: "pink",
   },
   {
     title: "Ring Bearer",
-    members: [{ name: "Little Noah Bautista" }],
-    layout: "single",
+    members: [{ name: "Kanoa Farweg W. Briones" }],
+    columns: 1,
+    color: "sage",
     rowGroup: "bearers",
   },
   {
     title: "Bible Bearer",
-    members: [{ name: "Little Eli Santos" }],
-    layout: "single",
+    members: [{ name: "Ryu Andie Arboleda" }],
+    columns: 1,
+    color: "sage",
     rowGroup: "bearers",
   },
   {
     title: "Coin Bearer",
-    members: [{ name: "Little Mateo Reyes" }],
-    layout: "single",
+    members: [{ name: "Szage B. Wanawan" }],
+    columns: 1,
+    color: "sage",
     rowGroup: "bearers",
   },
 ];
 
-// ─── Blob variants (same as LoveNote) ────────────────────────────────────────
+// ─── Blob animation ───────────────────────────────────────────────────────────
 const blobVariants = {
   animate: (i: number) => ({
     y: [0, -20, 0],
@@ -135,193 +238,153 @@ const blobVariants = {
 const serif = { fontFamily: '"Cormorant Garamond", serif' } as const;
 
 // ─── Decorative divider ───────────────────────────────────────────────────────
-function GoldDivider({ align = "center" }: { align?: "center" | "left" }) {
+function GoldDivider({ color = "gold" }: { color?: PillColor }) {
+  // Map accent colour for the divider dot
+  const dotColor: Record<PillColor, string> = {
+    gold: "bg-wedding-gold",
+    pearl: "bg-[#F0EDE8]",
+    dustyblue: "bg-[#8FAFC4]",
+    pink: "bg-[#D9A0AD]",
+    sage: "bg-[#92B89A]",
+    violet: "bg-[#B8A9D4]",
+    default: "bg-wedding-gold",
+  };
+  const lineColor: Record<PillColor, string> = {
+    gold: "bg-wedding-gold-metallic",
+    pearl: "bg-[#F0EDE8]",
+    dustyblue: "bg-[#8FAFC4]",
+    pink: "bg-[#D9A0AD]",
+    sage: "bg-[#92B89A]",
+    violet: "bg-[#B8A9D4]",
+    default: "bg-wedding-gold-metallic",
+  };
+
   return (
-    <motion.div
-      className={`flex items-center gap-3 my-2 ${align === "left" ? "justify-start" : "justify-center"}`}
-    >
-      <motion.div className="h-px w-12 bg-wedding-gold-metallic opacity-60" />
-      <motion.div className="w-1 h-1 rounded-full bg-wedding-gold opacity-80" />
-      <motion.div className="h-px w-12 bg-wedding-gold-metallic opacity-60" />
-    </motion.div>
+    <div className="flex items-center justify-center gap-3 my-1.5">
+      <div className={`h-px w-10 ${lineColor[color]} opacity-50`} />
+      <div className={`w-1 h-1 rounded-full ${dotColor[color]} opacity-70`} />
+      <div className={`h-px w-10 ${lineColor[color]} opacity-50`} />
+    </div>
   );
 }
 
+// ─── Group header ─────────────────────────────────────────────────────────────
 function GroupHeader({
   title,
   subtitle,
-  mobile = false,
+  compact = false,
+  color = "gold",
 }: {
   title: string;
   subtitle?: string;
-  mobile?: boolean;
+  compact?: boolean;
+  color?: PillColor;
 }) {
+  const labelColor: Record<PillColor, string> = {
+    gold: "text-wedding-gold/70",
+    pearl: "text-[#F0EDE8]/60",
+    dustyblue: "text-[#8FAFC4]/65",
+    pink: "text-[#D9A0AD]/65",
+    sage: "text-[#92B89A]/65",
+    violet: "text-[#B8A9D4]/65",
+    default: "text-wedding-gold/70",
+  };
+
   return (
-    <motion.div
-      className={
-        mobile
-          ? "md:hidden text-left mb-3"
-          : "hidden md:block text-center mb-6"
-      }
-    >
-      <motion.p className="text-xs uppercase tracking-[0.35em] text-wedding-gold/70 mb-1" style={serif}>
+    <div className={`text-center ${compact ? "mb-2" : "mb-3 md:mb-5"}`}>
+      <p
+        className={`uppercase tracking-[0.3em] mb-0.5 ${labelColor[color]} ${
+          compact ? "text-[8px] md:text-[10px]" : "text-[10px] md:text-xs"
+        }`}
+        style={serif}
+      >
         {subtitle ?? "\u00A0"}
-      </motion.p>
-      <motion.h3
-        className={`${mobile ? "text-xl" : "text-2xl md:text-3xl"} text-wedding-warmcream font-light`}
+      </p>
+      <h3
+        className={`text-wedding-warmcream font-light ${
+          compact ? "text-[15px] md:text-2xl" : "text-lg md:text-3xl"
+        }`}
         style={serif}
       >
         {title}
-      </motion.h3>
-      <GoldDivider align={mobile ? "left" : "center"} />
-    </motion.div>
+      </h3>
+      <GoldDivider color={color} />
+    </div>
   );
 }
 
-// ─── Person pill (desktop) ─────────────────────────────────────────────────────
-function PersonPill({ person, highlight = false }: { person: EntouragePerson; highlight?: boolean }) {
+// ─── Person pill ──────────────────────────────────────────────────────────────
+function PersonPill({
+  person,
+  color = "default",
+}: {
+  person: EntouragePerson;
+  color?: PillColor;
+}) {
+  const styles = colorStyles[color];
+
   return (
-    <motion.div
+    <div
       className={`
-        flex flex-col items-center text-center px-8 py-4 rounded-full border transition-colors
-        ${highlight
-          ? "border-wedding-gold/50 bg-wedding-gold/10"
-          : "border-wedding-softgray/15 bg-white/5"
-        }
+        flex flex-col items-center justify-center text-center
+        w-full px-3 py-[5px] md:px-6 md:py-[9px]
+        rounded-full border
+        ${styles.border} ${styles.bg}
       `}
     >
       <span
-        className={`text-base md:text-xl font-light leading-snug ${highlight ? "text-wedding-warmcream" : "text-wedding-softgray"}`}
+        className={`font-light leading-tight ${styles.text} text-[11px] md:text-[15px]`}
         style={serif}
       >
         {person.name}
       </span>
       {person.role && (
-        <span className="text-xs text-wedding-gold/60 tracking-widest uppercase mt-1" style={serif}>
+        <span
+          className={`text-[7px] md:text-[9px] tracking-widest uppercase mt-0.5 ${styles.label}`}
+          style={serif}
+        >
           {person.role}
         </span>
       )}
-    </motion.div>
+    </div>
   );
 }
 
-function MobileMemberList({
+// ─── Members grid ─────────────────────────────────────────────────────────────
+function MembersGrid({
   members,
-  highlight = false,
+  columns = 1,
+  color = "default",
 }: {
   members: EntouragePerson[];
-  highlight?: boolean;
+  columns?: 1 | 2;
+  color?: PillColor;
 }) {
   return (
-    <ul className="md:hidden space-y-0">
-      {members.map((person, i) => (
-        <li
-          key={i}
-          className="flex items-baseline justify-between gap-4 py-2.5 border-b border-wedding-softgray/10 last:border-0"
-        >
-          <span
-            className={`text-[15px] leading-snug ${highlight ? "text-wedding-warmcream" : "text-wedding-softgray"}`}
-            style={serif}
-          >
-            {person.name}
-          </span>
-          {person.role && (
-            <span
-              className="text-[10px] text-wedding-gold/60 tracking-wider uppercase shrink-0"
-              style={serif}
-            >
-              {person.role}
-            </span>
-          )}
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function DesktopMembers({
-  members,
-  layout,
-}: {
-  members: EntouragePerson[];
-  layout?: EntourageGroup["layout"];
-}) {
-  if (layout === "single") {
-    return (
-      <motion.div className="hidden md:flex justify-center">
-        <PersonPill person={members[0]} highlight />
-      </motion.div>
-    );
-  }
-
-  return (
-    <motion.div className="hidden md:flex flex-wrap justify-center gap-4">
+    <div
+      className={`grid gap-1.5 md:gap-2 w-full ${
+        columns === 2 ? "grid-cols-2" : "grid-cols-1"
+      }`}
+    >
       {members.map((m, i) => (
-        <PersonPill key={i} person={m} />
+        <PersonPill key={i} person={m} color={color} />
       ))}
-    </motion.div>
+    </div>
   );
 }
 
-// ─── Officiant card ───────────────────────────────────────────────────────────
-function OffciantCard() {
-  return (
-    <>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="md:hidden w-full mb-6 border-l-2 border-wedding-gold/50 pl-4 py-1"
-      >
-        <motion.p className="text-[10px] uppercase tracking-[0.28em] text-wedding-gold/70 mb-1" style={serif}>
-          Officiating Minister
-        </motion.p>
-        <motion.h3 className="text-xl font-light text-wedding-warmcream leading-snug" style={serif}>
-          {officiant.name}
-        </motion.h3>
-        <motion.p className="text-wedding-grey text-[11px] tracking-wide uppercase mt-1" style={serif}>
-          {officiant.church}
-        </motion.p>
-      </motion.div>
+// ─── Row-group section ────────────────────────────────────────────────────────
+function RowGroupSection({
+  siblings,
+  index,
+}: {
+  siblings: EntourageGroup[];
+  index: number;
+}) {
+  const n = siblings.length;
+  const mobileColClass =
+    n === 3 ? "grid-cols-3" : n === 2 ? "grid-cols-2" : "grid-cols-1";
 
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.2, ease: "easeOut" }}
-        className="hidden md:block relative mx-auto max-w-sm w-full mb-10"
-      >
-        <span className="absolute -top-2 -left-2 w-5 h-5 border-t-2 border-l-2 border-wedding-gold/60" />
-        <span className="absolute -top-2 -right-2 w-5 h-5 border-t-2 border-r-2 border-wedding-gold/60" />
-        <span className="absolute -bottom-2 -left-2 w-5 h-5 border-b-2 border-l-2 border-wedding-gold/60" />
-        <span className="absolute -bottom-2 -right-2 w-5 h-5 border-b-2 border-r-2 border-wedding-gold/60" />
-
-        <motion.div className="bg-wedding-slate border border-wedding-gold/30 rounded-xl px-10 py-8 text-center shadow-lg shadow-black/30">
-          <motion.div className="flex items-center justify-center mb-4">
-            <svg width="20" height="24" viewBox="0 0 20 24" fill="none" className="opacity-70">
-              <rect x="8" y="0" width="4" height="24" rx="2" fill="#C2A378" />
-              <rect x="0" y="7" width="20" height="4" rx="2" fill="#C2A378" />
-            </svg>
-          </motion.div>
-          <motion.p className="text-xs uppercase tracking-[0.3em] text-wedding-gold/70 mb-3" style={serif}>
-            Officiating Minister
-          </motion.p>
-          <motion.h3 className="text-2xl md:text-3xl font-light text-wedding-warmcream leading-tight" style={serif}>
-            {officiant.name}
-          </motion.h3>
-          <GoldDivider />
-          <motion.p className="text-wedding-grey text-xs tracking-widest uppercase mt-2" style={serif}>
-            {officiant.church}
-          </motion.p>
-        </motion.div>
-      </motion.div>
-    </>
-  );
-}
-
-// ─── Group section ─────────────────────────────────────────────────────────────
-function EntourageSection({ group, index }: { group: EntourageGroup; index: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -330,15 +393,57 @@ function EntourageSection({ group, index }: { group: EntourageGroup; index: numb
       transition={{ duration: 1, delay: index * 0.05, ease: "easeOut" }}
       className="w-full mb-6 md:mb-10"
     >
-      <GroupHeader title={group.title} subtitle={group.subtitle} mobile />
-      <GroupHeader title={group.title} subtitle={group.subtitle} />
-      <MobileMemberList members={group.members} highlight={group.layout === "single"} />
-      <DesktopMembers members={group.members} layout={group.layout} />
+      {/* Mobile */}
+      <div className={`md:hidden grid ${mobileColClass} gap-2`}>
+        {siblings.map((s) => (
+          <div key={s.title} className="flex flex-col min-w-0">
+            <GroupHeader
+              title={s.title}
+              subtitle={s.subtitle}
+              compact
+              color={s.color ?? "default"}
+            />
+            <MembersGrid
+              members={s.members}
+              columns={1}
+              color={s.color ?? "default"}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop */}
+      <div className="hidden md:flex gap-8 justify-center items-start">
+        {siblings.map((s) => (
+          <div
+            key={s.title}
+            className="flex-1 min-w-0 flex flex-col items-stretch"
+          >
+            <GroupHeader
+              title={s.title}
+              subtitle={s.subtitle}
+              color={s.color ?? "default"}
+            />
+            <MembersGrid
+              members={s.members}
+              columns={s.columns ?? 1}
+              color={s.color ?? "default"}
+            />
+          </div>
+        ))}
+      </div>
     </motion.div>
   );
 }
 
-function RowGroupSection({ siblings, index }: { siblings: EntourageGroup[]; index: number }) {
+// ─── Standalone group section ─────────────────────────────────────────────────
+function EntourageSection({
+  group,
+  index,
+}: {
+  group: EntourageGroup;
+  index: number;
+}) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -347,35 +452,26 @@ function RowGroupSection({ siblings, index }: { siblings: EntourageGroup[]; inde
       transition={{ duration: 1, delay: index * 0.05, ease: "easeOut" }}
       className="w-full mb-6 md:mb-10"
     >
-      {/* Mobile — stacked lists */}
-      <motion.div className="md:hidden space-y-5">
-        {siblings.map((s) => (
-          <motion.div key={s.title}>
-            <GroupHeader title={s.title} subtitle={s.subtitle} mobile />
-            <MobileMemberList members={s.members} highlight />
-          </motion.div>
-        ))}
-      </motion.div>
-
-      {/* Desktop — side by side pills */}
-      <motion.div className="hidden md:flex gap-6 justify-center items-start">
-        {siblings.map((s) => (
-          <motion.div key={s.title} className="flex-1 flex flex-col items-center text-center min-w-0">
-            <GroupHeader title={s.title} subtitle={s.subtitle} />
-            <PersonPill person={s.members[0]} highlight />
-          </motion.div>
-        ))}
-      </motion.div>
+      <GroupHeader
+        title={group.title}
+        subtitle={group.subtitle}
+        color={group.color ?? "default"}
+      />
+      <MembersGrid
+        members={group.members}
+        columns={group.columns ?? 1}
+        color={group.color ?? "default"}
+      />
     </motion.div>
   );
 }
 
-// ─── Main component ───────────────────────────────────────────────────────────
+// ─── Main export ──────────────────────────────────────────────────────────────
 export default function Entourage() {
   return (
     <section
       id="Entourage"
-      className="relative w-full flex flex-col items-center bg-wedding-slate overflow-hidden py-16 md:py-24 px-5"
+      className="relative w-full flex flex-col items-center bg-wedding-slate overflow-hidden py-16 md:py-24 px-4 md:px-5"
     >
       <motion.div
         custom={0}
@@ -402,7 +498,7 @@ export default function Entourage() {
         className="absolute w-[260px] h-[260px] bg-wedding-steel/20 rounded-full blur-2xl left-[20%]"
       />
 
-      <motion.div className="relative w-full max-w-5xl">
+      <div className="relative w-full max-w-5xl">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -410,27 +506,25 @@ export default function Entourage() {
           transition={{ duration: 1.8 }}
           className="text-center mb-10 md:mb-16"
         >
-          <motion.h1
+          <h1
             className="text-5xl md:text-7xl text-wedding-warmcream font-bold tracking-widest drop-shadow-lg pt-5"
             style={{ fontFamily: '"Great Vibes", cursive' }}
           >
             Entourage
-          </motion.h1>
-          <motion.p
+          </h1>
+          <p
             className="text-wedding-softgray mt-2 tracking-wide text-sm md:text-base italic font-light"
             style={serif}
           >
             The beloved people walking beside us
-          </motion.p>
+          </p>
         </motion.div>
 
-        <OffciantCard />
-
-        <motion.div className="flex items-center gap-4 mb-10 md:mb-16 opacity-30">
-          <motion.div className="flex-1 h-px bg-wedding-softgray" />
-          <motion.div className="w-1.5 h-1.5 rounded-full bg-wedding-gold rotate-45" />
-          <motion.div className="flex-1 h-px bg-wedding-softgray" />
-        </motion.div>
+        <div className="flex items-center gap-4 mb-10 md:mb-16 opacity-30">
+          <div className="flex-1 h-px bg-wedding-softgray" />
+          <div className="w-1.5 h-1.5 rounded-full bg-wedding-gold rotate-45" />
+          <div className="flex-1 h-px bg-wedding-softgray" />
+        </div>
 
         {(() => {
           const rendered = new Set<string>();
@@ -438,15 +532,23 @@ export default function Entourage() {
             if (group.rowGroup) {
               if (rendered.has(group.rowGroup)) return null;
               rendered.add(group.rowGroup);
-              const siblings = groups.filter((g) => g.rowGroup === group.rowGroup);
+              const siblings = groups.filter(
+                (g) => g.rowGroup === group.rowGroup
+              );
               return (
-                <RowGroupSection key={group.rowGroup} siblings={siblings} index={i} />
+                <RowGroupSection
+                  key={group.rowGroup}
+                  siblings={siblings}
+                  index={i}
+                />
               );
             }
-            return <EntourageSection key={group.title} group={group} index={i} />;
+            return (
+              <EntourageSection key={group.title} group={group} index={i} />
+            );
           });
         })()}
-      </motion.div>
+      </div>
     </section>
   );
 }
