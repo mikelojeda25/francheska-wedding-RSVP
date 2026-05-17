@@ -197,7 +197,7 @@ const groups: EntourageGroup[] = [
   },
   {
     title: "Best Man",
-    members: [{ name: "Arnold Wanawan Chalis Jr." }],
+    members: [{ name: "Simoth Caballero" }],
     columns: 1,
     highlight: true,
     color: "pearl",
