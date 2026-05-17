@@ -380,10 +380,11 @@ function PersonPill({
     <div
       className={`
         flex flex-col items-center justify-center text-center
-        w-full h-full px-3 py-[5px] md:px-6 md:py-[9px]
-        rounded-full border
+        px-3 py-[5px] md:px-6 md:py-[9px]
+        border
         ${styles.border} ${styles.bg}
       `}
+      style={{ borderRadius: 9999, width: "100%", boxSizing: "border-box" }}
     >
       <span
         className={`font-light leading-tight ${styles.text} text-[13px] md:text-[15px]`}
@@ -455,7 +456,7 @@ function MembersGrid({
       className={`grid gap-1.5 md:gap-2 w-full ${
         columns === 2 ? "grid-cols-2" : "grid-cols-1"
       }`}
-      style={{ gridAutoRows: "1fr" }}
+      style={{ gridAutoRows: "1fr", alignItems: "stretch" }}
     >
       {members.map((m, i) => (
         <PersonPill key={i} person={m} color={color} />
@@ -509,7 +510,7 @@ function RowGroupSection({
       ) : (
         <div className={`md:hidden grid ${mobileColClass} gap-2 items-start`}>
           {siblings.map((s) => (
-            <div key={s.title} className="flex flex-col min-w-0">
+            <div key={s.title} className="flex flex-col min-w-0 w-full max-w-xs mx-auto sm:max-w-none">
               <GroupHeader
                 title={s.title}
                 subtitle={s.subtitle}
