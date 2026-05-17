@@ -2,6 +2,7 @@ import { motion } from "framer-motion"
 import Countdown from './Countdown';
 import WeddingButton from './WeddingButton';
 import { Heart } from "lucide-react"
+import StarField from "./StarField";
 
 const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 20 },
@@ -15,13 +16,13 @@ const fadeUp = (delay: number) => ({
 
 // Decorative divider component
 const Divider = ({ className = "" }: { className?: string }) => (
-  <div className={`flex items-center justify-center gap-3 ${className}`}>
+  <div className={`flex items-center justify-center gap-3 -mt-2 -mb-2 ${className}`}>
     <div className="h-px w-16 bg-gradient-to-r from-transparent to-white/60" />
-    <div className="w-2 h-2 rounded-full bg-white" />
+    <div className="w-1 h-1 rounded-full bg-white" />
     <div className="h-px w-6 bg-white/50" />
-    <div className="w-4 h-4 rounded-full border-2 bg-white" />
+    <div className="w-2 h-2 rounded-full border-2 bg-white" />
     <div className="h-px w-6 bg-white/50" />
-    <div className="w-2 h-2 rounded-full bg-white" />
+    <div className="w-1 h-1 rounded-full bg-white" />
     <div className="h-px w-16 bg-gradient-to-l from-transparent to-white/60" />
   </div>
 )
@@ -36,12 +37,18 @@ export default function Home() {
         style={{ backgroundImage: "url('/images/home.webp')" }}
       />
       <div
-        className="absolute inset-0 bg-cover bg-center lg:hidden"
-        style={{ backgroundImage: "url('/images/homeMobile.webp')" }}
-      />
+  className="absolute inset-0 bg-cover bg-center lg:hidden"
+  style={{ 
+    backgroundImage: "url('/images/homeMobile.webp')",
+    transform: "scaleX(-1)"
+  }}
+/>
 
       {/* Overlay */}
       <div className="absolute inset-0 bg-wedding-grey/80" />
+
+      {/* Stars */}
+      <StarField />
 
       {/* Content */}
       <div className="relative z-10 flex h-full flex-col items-center justify-center">
@@ -113,8 +120,8 @@ export default function Home() {
 
             <motion.p
               {...fadeUp(0.15)}
-              className="mt-4 text-white tracking-[0.2em] font-bold uppercase text-[1.25rem]"
-              style={{ textShadow: "2px 1px 0px #C2A378", fontFamily: "'Cormorant Garamond', serif" }}
+              className="mt-4 text-white tracking-[0.4em] font-bold uppercase text-[.9rem]"
+              style={{ textShadow: "0 1px 2px rgba(0,0,0,0.2), 0 2px 6px rgba(0,0,0,0.15)", fontFamily: "'Cormorant Garamond', serif" }}
             >
               Wedding Celebration
             </motion.p>
@@ -122,8 +129,8 @@ export default function Home() {
             {/* Mobile Divider below subtitle */}
             <motion.p
               {...fadeUp(0.3)}
-              className="mt-4 text-[1.1rem] font-bold tracking-[0.05rem] text-white/80"
-              style={{ textShadow: "2px 1px 0px #C2A378" }}
+              className="text-[.9rem] font-bold tracking-[0.05rem] text-white/80"
+              style={{ textShadow: "0 1px 2px rgba(0,0,0,0.2), 0 2px 6px rgba(0,0,0,0.15)" }}
             >
               <div>Casa Macoto Beach Resort</div>
               <div className="mt-0.5">July 25, 2026</div>

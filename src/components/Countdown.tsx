@@ -44,7 +44,7 @@ export default function Countdown() {
       <div className="flex items-center gap-3">
         {units.map(({ value, suffix }, i) => (
           <div key={suffix} className="flex items-center gap-3">
-            <div className="flex items-end gap-1">
+            <div className="flex items-end gap-3">
               <span className="text-3xl font-bold text-white tabular-nums drop-shadow-md"style={{
               textShadow: "2px 1px 0px #C2A378"
             }}>
