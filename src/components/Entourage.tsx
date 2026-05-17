@@ -22,10 +22,10 @@ const stars = Array.from({ length: 24 }, (_, i) => ({
   id: i,
   top: `${(i * 37.3) % 100}%`,
   left: `${(i * 61.7) % 100}%`,
-  size: (i % 3) + 3,        // 3px, 4px, 5px
-  duration: (i % 3) + 2,    // 2s, 3s, 4s
+  size: (i % 3) + 3,
+  duration: (i % 3) + 2,
   delay: (i * 0.4) % 4,
-  isLarge: i % 5 === 0,     // every 5th = malaking sparkle
+  isLarge: i % 5 === 0,
 }));
 
 function ShimmerStars() {
@@ -45,13 +45,7 @@ function ShimmerStars() {
           }}
         >
           {star.isLarge ? (
-            /* Big 4-point sparkle ✦ */
-            <svg
-              width={star.size * 6}
-              height={star.size * 6}
-              viewBox="0 0 24 24"
-              fill="none"
-            >
+            <svg width={star.size * 6} height={star.size * 6} viewBox="0 0 24 24" fill="none">
               <path
                 d="M12 2 L13.5 10.5 L22 12 L13.5 13.5 L12 22 L10.5 13.5 L2 12 L10.5 10.5 Z"
                 fill="white"
@@ -59,7 +53,6 @@ function ShimmerStars() {
               />
             </svg>
           ) : (
-            /* Small dot star */
             <div
               className="rounded-full bg-white"
               style={{
@@ -165,6 +158,8 @@ const groups: EntourageGroup[] = [
       { name: "Bryan Jardiolin" },
       { name: "June Dacoco" },
       { name: "Ferdie Soriano" },
+      { name: "Joegie Tawaran" },
+      { name: "Danny Dalog" },
     ],
     columns: 1,
     color: "dustyblue",
@@ -193,6 +188,8 @@ const groups: EntourageGroup[] = [
       { name: "Ellani M. Jardiolin" },
       { name: "Eliza C. Orquez" },
       { name: "Evelyn R. Mulleno" },
+      { name: "Madelaine Tawaran" },
+      { name: "Nita Dalog" },
     ],
     columns: 1,
     color: "dustyblue",
@@ -296,7 +293,6 @@ const serif = { fontFamily: '"Cormorant Garamond", serif' } as const;
 
 // ─── Decorative divider ───────────────────────────────────────────────────────
 function GoldDivider({ color = "gold" }: { color?: PillColor }) {
-  // Map accent colour for the divider dot
   const dotColor: Record<PillColor, string> = {
     gold: "bg-wedding-gold",
     pearl: "bg-[#F0EDE8]",
@@ -348,7 +344,7 @@ function GroupHeader({
   };
 
   return (
-    <div className={`text-center ${compact ? "mb-2" : "mb-3 md:mb-5"}`} >
+    <div className={`text-center ${compact ? "mb-2" : "mb-3 md:mb-5"}`}>
       <p
         className={`uppercase tracking-[0.3em] mb-0.5 ${labelColor[color]} ${
           compact ? "text-[10px] md:text-[10px]" : "text-[11px] md:text-xs"
@@ -384,7 +380,7 @@ function PersonPill({
     <div
       className={`
         flex flex-col items-center justify-center text-center
-        w-full px-3 py-[5px] md:px-6 md:py-[9px]
+        w-full h-full px-3 py-[5px] md:px-6 md:py-[9px]
         rounded-full border
         ${styles.border} ${styles.bg}
       `}
@@ -407,6 +403,43 @@ function PersonPill({
   );
 }
 
+// ─── Paired members grid (syncs row heights across two groups) ────────────────
+function PairedMembersGrid({
+  leftMembers,
+  rightMembers,
+  leftColor = "default",
+  rightColor = "default",
+}: {
+  leftMembers: EntouragePerson[];
+  rightMembers: EntouragePerson[];
+  leftColor?: PillColor;
+  rightColor?: PillColor;
+}) {
+  const maxLen = Math.max(leftMembers.length, rightMembers.length);
+
+  return (
+    <div
+      className="grid gap-1.5 md:gap-2 w-full"
+      style={{ gridTemplateColumns: "1fr 1fr", gridAutoRows: "1fr" }}
+    >
+      {Array.from({ length: maxLen }).map((_, i) => (
+        <>
+          {leftMembers[i] ? (
+            <PersonPill key={`l-${i}`} person={leftMembers[i]} color={leftColor} />
+          ) : (
+            <div key={`l-empty-${i}`} />
+          )}
+          {rightMembers[i] ? (
+            <PersonPill key={`r-${i}`} person={rightMembers[i]} color={rightColor} />
+          ) : (
+            <div key={`r-empty-${i}`} />
+          )}
+        </>
+      ))}
+    </div>
+  );
+}
+
 // ─── Members grid ─────────────────────────────────────────────────────────────
 function MembersGrid({
   members,
@@ -422,6 +455,7 @@ function MembersGrid({
       className={`grid gap-1.5 md:gap-2 w-full ${
         columns === 2 ? "grid-cols-2" : "grid-cols-1"
       }`}
+      style={{ gridAutoRows: "1fr" }}
     >
       {members.map((m, i) => (
         <PersonPill key={i} person={m} color={color} />
@@ -440,7 +474,7 @@ function RowGroupSection({
 }) {
   const n = siblings.length;
   const mobileColClass =
-    n === 3 ? "grid-cols-3" : n === 2 ? "grid-cols-2" : "grid-cols-1";
+    n === 3 ? "grid-cols-1 sm:grid-cols-3" : n === 2 ? "grid-cols-2" : "grid-cols-1";
 
   return (
     <motion.div
@@ -451,44 +485,89 @@ function RowGroupSection({
       className="w-full mb-6 md:mb-10"
     >
       {/* Mobile */}
-      <div className={`md:hidden grid ${mobileColClass} gap-2`}>
-        {siblings.map((s) => (
-          <div key={s.title} className="flex flex-col min-w-0">
-            <GroupHeader
-              title={s.title}
-              subtitle={s.subtitle}
-              compact
-              color={s.color ?? "default"}
-            />
-            <MembersGrid
-              members={s.members}
-              columns={1}
-              color={s.color ?? "default"}
-            />
+      {n === 2 ? (
+        <div className="md:hidden">
+          <div className="grid grid-cols-2 gap-2 mb-2">
+            {siblings.map((s) => (
+              <div key={s.title} className="flex flex-col min-w-0">
+                <GroupHeader
+                  title={s.title}
+                  subtitle={s.subtitle}
+                  compact
+                  color={s.color ?? "default"}
+                />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+          <PairedMembersGrid
+            leftMembers={siblings[0].members}
+            rightMembers={siblings[1].members}
+            leftColor={siblings[0].color ?? "default"}
+            rightColor={siblings[1].color ?? "default"}
+          />
+        </div>
+      ) : (
+        <div className={`md:hidden grid ${mobileColClass} gap-2 items-start`}>
+          {siblings.map((s) => (
+            <div key={s.title} className="flex flex-col min-w-0">
+              <GroupHeader
+                title={s.title}
+                subtitle={s.subtitle}
+                compact
+                color={s.color ?? "default"}
+              />
+              <MembersGrid
+                members={s.members}
+                columns={1}
+                color={s.color ?? "default"}
+              />
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Desktop */}
-      <div className="hidden md:flex gap-8 justify-center items-start">
-        {siblings.map((s) => (
-          <div
-            key={s.title}
-            className="flex-1 min-w-0 flex flex-col items-stretch"
-          >
-            <GroupHeader
-              title={s.title}
-              subtitle={s.subtitle}
-              color={s.color ?? "default"}
-            />
-            <MembersGrid
-              members={s.members}
-              columns={s.columns ?? 1}
-              color={s.color ?? "default"}
-            />
+      {n === 2 ? (
+        <div className="hidden md:block">
+          <div className="flex gap-8 justify-center mb-3 md:mb-5">
+            {siblings.map((s) => (
+              <div key={s.title} className="flex-1 min-w-0">
+                <GroupHeader
+                  title={s.title}
+                  subtitle={s.subtitle}
+                  color={s.color ?? "default"}
+                />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+          <PairedMembersGrid
+            leftMembers={siblings[0].members}
+            rightMembers={siblings[1].members}
+            leftColor={siblings[0].color ?? "default"}
+            rightColor={siblings[1].color ?? "default"}
+          />
+        </div>
+      ) : (
+        <div className="hidden md:flex gap-8 justify-center items-start">
+          {siblings.map((s) => (
+            <div
+              key={s.title}
+              className="flex-1 min-w-0 flex flex-col items-stretch"
+            >
+              <GroupHeader
+                title={s.title}
+                subtitle={s.subtitle}
+                color={s.color ?? "default"}
+              />
+              <MembersGrid
+                members={s.members}
+                columns={s.columns ?? 1}
+                color={s.color ?? "default"}
+              />
+            </div>
+          ))}
+        </div>
+      )}
     </motion.div>
   );
 }
