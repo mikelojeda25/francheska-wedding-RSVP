@@ -9,7 +9,8 @@ export default function StarField() {
     const container = containerRef.current
     if (!container) return
 
-    const count = 200
+    const isMobile = window.matchMedia("(max-width: 768px)").matches
+    const count = isMobile ? 70 : 200
     const stars: HTMLDivElement[] = []
 
     for (let i = 0; i < count; i++) {
@@ -28,6 +29,7 @@ export default function StarField() {
         width: ${size}px;
         height: ${size}px;
         animation: starShimmer ${dur}s ease-in-out -${delay}s infinite;
+        will-change: opacity, transform;
         --peak: ${peak};
         pointer-events: none;
       `

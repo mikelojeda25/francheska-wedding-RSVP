@@ -20,7 +20,8 @@ function ButterflyBackground() {
     resize();
     window.addEventListener("resize", resize);
 
-    const COUNT = 18;
+    const isMobile = window.matchMedia("(max-width: 768px)").matches
+    const COUNT = isMobile ? 8 : 18;
     const colors = [
       [134, 175, 205],  // baby blue
       [180, 210, 230],  // light blue
