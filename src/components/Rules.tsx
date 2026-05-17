@@ -29,7 +29,7 @@ const gentleRules: Rule[] = [
   },
   {
     icon: ShieldAlert,
-    text: "Out of respect for the ceremony, we kindly ask that phones be silenced and kept away during the program. Feel free to take photos and videos. We'd love to see and appreciate your captured moments with us! 📷",
+    text: "To help us keep the ceremony peaceful and special for everyone, we kindly ask that the pool be enjoyed only during cocktail hour and until 11:00 PM. Thank you so much for your kind understanding. 🏊‍♀️",
   },
 ];
 
@@ -210,7 +210,7 @@ export default function Rules() {
               <img
                 src="/images/Rules.webp"
                 alt="Casa Macoto Venue Rules"
-                className="w-auto lg:h-[692px] object-cover"
+                className="w-auto lg:h-[669px] object-cover"
               />
 
               {/* Gold hover overlay — 30% opacity */}
