@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 // ─── Sparkle canvas background ───────────────────────────────────────────────
 function SparkleBackground() {
@@ -22,10 +22,10 @@ function SparkleBackground() {
 
     const COUNT = 65;
     const goldColors = [
-      [194, 163, 120],  // wedding-gold
-      [201, 191, 143],  // kintab/highlight
-      [147, 115, 65],   // dark gold
-      [255, 225, 150],  // bright shimmer
+      [194, 163, 120],
+      [201, 191, 143],
+      [147, 115, 65],
+      [255, 225, 150],
     ];
 
     const sparkles = Array.from({ length: COUNT }, (_, idx) => ({
@@ -55,7 +55,6 @@ function SparkleBackground() {
         ctx.translate(cx, cy);
         ctx.globalAlpha = alpha;
 
-        // 4-point star
         ctx.beginPath();
         for (let i = 0; i < 8; i++) {
           const angle = (i * Math.PI) / 4;
@@ -68,7 +67,6 @@ function SparkleBackground() {
         ctx.fillStyle = `rgb(${r},${g},${b})`;
         ctx.fill();
 
-        // Soft glow halo
         const grd = ctx.createRadialGradient(0, 0, 0, 0, 0, sz * 4);
         grd.addColorStop(0, `rgba(${r},${g},${b},${alpha * 0.35})`);
         grd.addColorStop(1, `rgba(${r},${g},${b},0)`);
@@ -79,7 +77,6 @@ function SparkleBackground() {
 
         ctx.restore();
 
-        // Gentle upward float
         s.y -= 0.15;
         if (s.y < -10) {
           s.y = canvas.height + 10;
@@ -109,22 +106,26 @@ function SparkleBackground() {
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const qrOptions = [
   {
-    image: "/images/QR1.png",
+    image: "/images/QR1-GCash.webp",
     label: "GCash",
     name: "FR*******A AV****N R.",
   },
   {
-    image: "/images/QR2.png",
-    label: "Maya",
-    name: "FR*******A AV****N R.",
+    image: "/images/QR2-BPI.webp",
+    label: "BPI",
+    name: "RJandFA",
+  },
+  {
+    image: "/images/QR3-MariBank.webp",
+    label: "MariBank",
+    name: "FRNCHESKA AVELEEN RUIZ",
   },
 ];
 
 const messageLines = [
-  { text: "With grateful hearts, we feel so abundantly blessed.", emoji: "🤍" },
-  { text: "Your presence and heartfelt prayers are our greatest request.", emoji: "🙏✨" },
-  { text: "But should you also wish to share a gift along the way,", emoji: "🎁" },
-  { text: "A monetary blessing would truly mean the world to us.", emoji: "💌" },
+  { text: "Your love, laughter, and prayers are the greatest gifts of all.", emoji: "🤍" },
+  { text: "But if you wish to bless us further as we begin this new chapter together", emoji: "🙏✨" },
+  { text: "A monetary gift would be warmly appreciated and received with gratitude", emoji: "🎁" },
 ];
 
 // ─── Divider ──────────────────────────────────────────────────────────────────
@@ -138,8 +139,107 @@ function GoldDivider() {
   );
 }
 
-// ─── Component ───────────────────────────────────────────────────────────────
+// ─── Lightbox ─────────────────────────────────────────────────────────────────
+function Lightbox({
+  src,
+  label,
+  name,
+  onClose,
+}: {
+  src: string;
+  label: string;
+  name: string;
+  onClose: () => void;
+}) {
+  // Close on backdrop click or Escape key
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onClose]);
+
+  // Prevent body scroll while open
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, []);
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        key="lightbox-backdrop"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.25 }}
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+        onClick={onClose}
+      >
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute top-5 right-5 z-60 flex items-center justify-center
+                     w-10 h-10 rounded-full bg-white/15 border border-white/25
+                     text-white hover:bg-white/25 transition-colors"
+          aria-label="Close"
+        >
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <line x1="2" y1="2" x2="16" y2="16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            <line x1="16" y1="2" x2="2" y2="16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+        </button>
+
+        {/* Image container — stops click propagation so only backdrop closes */}
+        <motion.div
+          key="lightbox-image"
+          initial={{ opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.92 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="flex flex-col items-center"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Label */}
+          <p
+            className="text-xs uppercase tracking-[0.3em] text-wedding-gold mb-3 font-light"
+            style={{ fontFamily: '"Cormorant Garamond", serif' }}
+          >
+            {label}
+          </p>
+
+          {/*
+            Desktop → fixed tall height, auto width
+            Mobile  → full viewport width minus padding, auto height
+          */}
+          <img
+            src={src}
+            alt={`${label} QR Code`}
+            className="
+              rounded-xl object-contain shadow-2xl
+              w-[calc(100vw-3rem)] h-auto
+              md:w-auto md:h-[85vh]
+            "
+          />
+
+          {/* Name */}
+          <p
+            className="mt-4 text-white/80 text-sm font-light tracking-wide"
+            style={{ fontFamily: '"Cormorant Garamond", serif' }}
+          >
+            {name}
+          </p>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
+// ─── Component ────────────────────────────────────────────────────────────────
 export default function GiftGuide() {
+  const [activeQr, setActiveQr] = useState<null | typeof qrOptions[0]>(null);
+
   return (
     <section
       id="GiftGuide"
@@ -150,7 +250,6 @@ export default function GiftGuide() {
       <div className="pointer-events-none absolute bottom-0 right-0 w-96 h-96 rounded-full bg-wedding-gold/10 blur-3xl translate-x-1/2 translate-y-1/2" />
       <div className="pointer-events-none absolute top-1/2 left-1/4 w-64 h-64 rounded-full bg-wedding-steel/5 blur-2xl" />
 
-      {/* Gold sparkles */}
       <SparkleBackground />
 
       <div className="relative w-full max-w-5xl flex flex-col items-center">
@@ -171,7 +270,7 @@ export default function GiftGuide() {
           </h1>
         </motion.div>
 
-        {/* Single unified card */}
+        {/* Card */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -186,7 +285,7 @@ export default function GiftGuide() {
 
           <div className="bg-white border border-wedding-darkcream rounded-2xl px-8 md:px-14 py-10 shadow-sm text-center">
 
-            {/* Message lines */}
+            {/* Message */}
             <GoldDivider />
             <div className="flex flex-col gap-2 my-1">
               {messageLines.map((line, i) => (
@@ -206,8 +305,8 @@ export default function GiftGuide() {
             </div>
             <GoldDivider />
 
-            {/* QR codes inside same card */}
-            <div className="mt-4 flex flex-col sm:flex-row lg:gap-15 gap-8 justify-center items-center">
+            {/* QR codes — same height via items-stretch on the row + h-full on images */}
+            <div className="mt-4 flex flex-col sm:flex-row lg:gap-15 gap-8 justify-center items-stretch">
               {qrOptions.map((qr, i) => (
                 <motion.div
                   key={qr.label}
@@ -215,21 +314,40 @@ export default function GiftGuide() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 1, delay: 0.5 + i * 0.15 }}
-                  className="flex flex-col items-center"
+                  className="flex flex-col items-center flex-1"
                 >
                   <p
-                    className="text-xs uppercase tracking-[0.3em] text-wedding-gold mb-4 font-light"
-                    style={{ fontFamily: '"Cormorant Garamond", serif' }}
+                    className="text-xs uppercase tracking-[0.3em] text-wedding-gold mb-4 font-bold"
                   >
                     {qr.label}
                   </p>
-                  <div className="w-full rounded-xl overflow-hidden border border-wedding-darkcream">
+
+                  {/* Image wrapper — flex-1 + cursor-pointer for lightbox */}
+                  <button
+                    onClick={() => setActiveQr(qr)}
+                    className="flex-1 w-full rounded-xl overflow-hidden border border-wedding-darkcream
+                               cursor-zoom-in group relative focus:outline-none
+                               transition-shadow hover:shadow-md"
+                    aria-label={`View ${qr.label} QR Code`}
+                  >
                     <img
                       src={qr.image}
                       alt={`${qr.label} QR Code`}
                       className="w-full h-full object-cover"
                     />
-                  </div>
+                    {/* Hover hint */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-wedding-babyblue/50
+                                    transition-colors flex items-center justify-center">
+                      <span className="opacity-0 group-hover:opacity-100 transition-opacity
+                                       text-white text-xs tracking-widest uppercase bg-black/80
+                                       px-3 py-1.5 rounded-full"
+                        style={{ fontFamily: '"Cormorant Garamond", serif' }}
+                      >
+                        Tap to expand
+                      </span>
+                    </div>
+                  </button>
+
                   <p
                     className="mt-3 text-wedding-slate text-sm font-light tracking-wide"
                     style={{ fontFamily: '"Cormorant Garamond", serif' }}
@@ -246,7 +364,7 @@ export default function GiftGuide() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1.4, delay: 0.7 }}
-              className="mt-8 text-center text-sm text-wedding-grey italic font-light"
+              className="mt-8 text-center text-sm text-black/50 italic font-bold"
               style={{ fontFamily: '"Cormorant Garamond", serif' }}
             >
               "Every good and perfect gift is from above." — James 1:17
@@ -254,8 +372,17 @@ export default function GiftGuide() {
 
           </div>
         </motion.div>
-
       </div>
+
+      {/* Lightbox */}
+      {activeQr && (
+        <Lightbox
+          src={activeQr.image}
+          label={activeQr.label}
+          name={activeQr.name}
+          onClose={() => setActiveQr(null)}
+        />
+      )}
     </section>
   );
 }
