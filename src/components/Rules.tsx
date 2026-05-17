@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
-import { Baby, CloudRain, ShieldAlert } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Baby, CloudRain, ShieldAlert, X } from "lucide-react";
+import { useState, useEffect } from "react";
 
 // ─── Blob variants ────────────────────────────────────────────────────────────
 const blobVariants = {
@@ -20,7 +21,7 @@ interface Rule {
 const gentleRules: Rule[] = [
   {
     icon: Baby,
-    text: "We can't wait to celebrate with you! Just a gentle reminder that our venue is right by the open seaside. Because we want everyone especially the little ones to stay safe, we’re kindly suggesting a child free evening, with the exception of our secondary sponsors. We’d love for you to have a night off to fully relax and celebrate with us! However, if you do need to bring your children, we just ask that they stay under close supervision at all times. Thank you so much for understanding! 🤍",
+    text: "We can't wait to celebrate with you! Just a gentle reminder that our venue is right by the open seaside. Because we want everyone especially the little ones to stay safe, we're kindly suggesting a child free evening, with the exception of our secondary sponsors. We'd love for you to have a night off to fully relax and celebrate with us! However, if you do need to bring your children, we just ask that they stay under close supervision at all times. Thank you so much for understanding! 🤍",
   },
   {
     icon: CloudRain,
@@ -28,14 +29,14 @@ const gentleRules: Rule[] = [
   },
   {
     icon: ShieldAlert,
-    text: "Out of respect for the ceremony, we kindly ask that phones be silenced and kept away during the program. Feel free to take photos and videos. We’d love to see and appreciate your captured moments with us! 📷",
+    text: "Out of respect for the ceremony, we kindly ask that phones be silenced and kept away during the program. Feel free to take photos and videos. We'd love to see and appreciate your captured moments with us! 📷",
   },
 ];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 function GoldDivider() {
   return (
-    <div id="Rules" className="flex items-center gap-3 my-5">
+    <div className="flex items-center gap-3 my-5">
       <div className="flex-1 h-px bg-wedding-gold opacity-25" />
       <div className="w-1.5 h-1.5 rounded-full bg-wedding-gold opacity-60 rotate-45" />
       <div className="flex-1 h-px bg-wedding-gold opacity-25" />
@@ -86,8 +87,65 @@ function RuleItem({ rule, index }: { rule: Rule; index: number }) {
   );
 }
 
+// ─── Lightbox ─────────────────────────────────────────────────────────────────
+function Lightbox({ onClose }: { onClose: () => void }) {
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", handler);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        key="rules-lightbox"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.25 }}
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm"
+        onClick={onClose}
+      >
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          aria-label="Close"
+          className="absolute top-5 right-5 z-60 flex items-center justify-center
+                     w-10 h-10 rounded-full bg-white/15 border border-white/25
+                     text-white hover:bg-white/25 transition-colors"
+        >
+          <X size={18} />
+        </button>
+
+        {/* Image */}
+        <motion.img
+          key="rules-img"
+          src="/images/Rules.webp"
+          alt="Casa Macoto Venue Rules"
+          initial={{ opacity: 0, scale: 0.93 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.93 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          onClick={(e) => e.stopPropagation()}
+          className="
+            rounded-xl shadow-2xl object-contain
+            w-[calc(100vw-3rem)] h-auto
+            md:w-auto md:h-[85vh]
+          "
+        />
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
 // ─── Main ─────────────────────────────────────────────────────────────────────
 export default function Rules() {
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
   return (
     <section
       id="Rules"
@@ -128,9 +186,9 @@ export default function Rules() {
         </motion.div>
 
         {/* Two-column layout */}
-        <div className="flex flex-col md:flex-row gap-8 items-start">
+        <div className="flex flex-col lg:flex-row gap-8 items-start">
 
-          {/* Left — Venue Rules Image */}
+          {/* Left — Venue Rules Image (clickable) */}
           <motion.div
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -144,13 +202,34 @@ export default function Rules() {
             <span className="absolute -bottom-2 -left-2 w-5 h-5 border-b-2 border-l-2 border-wedding-gold/40 z-10" />
             <span className="absolute -bottom-2 -right-2 w-5 h-5 border-b-2 border-r-2 border-wedding-gold/40 z-10" />
 
-            <div className="relative overflow-hidden rounded-2xl border border-wedding-gold/20">
+            <button
+              onClick={() => setLightboxOpen(true)}
+              className="relative w-full overflow-hidden rounded-2xl border border-wedding-gold/20 cursor-zoom-in group focus:outline-none"
+              aria-label="View venue rules full size"
+            >
               <img
                 src="/images/Rules.webp"
                 alt="Casa Macoto Venue Rules"
-                className="w-full h-auto object-cover"
+                className="w-auto lg:h-[692px] object-cover"
               />
-            </div>
+
+              {/* Gold hover overlay — 30% opacity */}
+              <div
+                className="absolute inset-0 bg-wedding-gold opacity-0 group-hover:opacity-30 transition-opacity duration-300"
+              />
+
+              {/* Tap to expand label */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <span
+                  className="opacity-0 group-hover:opacity-80 transition-opacity duration-300
+                             text-white text-xs tracking-widest uppercase
+                             bg-black/90 px-4 py-2 rounded-full"
+                  style={{ fontFamily: '"Cormorant Garamond", serif' }}
+                >
+                  Tap to expand
+                </span>
+              </div>
+            </button>
           </motion.div>
 
           {/* Right — Gentle reminders */}
@@ -178,6 +257,9 @@ export default function Rules() {
 
         </div>
       </div>
+
+      {/* Lightbox */}
+      {lightboxOpen && <Lightbox onClose={() => setLightboxOpen(false)} />}
     </section>
   );
 }
