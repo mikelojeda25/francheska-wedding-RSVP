@@ -316,7 +316,7 @@ export default function LoveNote() {
               className="text-wedding-babyblue font-semibold text-center text-[2rem]"
               style={{ fontFamily: '"Great Vibes", cursive' }}
             >
-              Anchor In Love
+              Anchored In Love
             </h2>
 
             {/* Verse — below heading */}

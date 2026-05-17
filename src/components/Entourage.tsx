@@ -200,7 +200,7 @@ const groups: EntourageGroup[] = [
   },
   {
     title: "Best Man",
-    members: [{ name: "Arnold Wanawan Chalis Jr." }],
+    members: [{ name: "Ianro Wanawan" }],
     columns: 1,
     highlight: true,
     color: "pearl",
@@ -248,7 +248,7 @@ const groups: EntourageGroup[] = [
     title: "Flower Girls",
     members: [
       { name: "Riona Arabelle P. Arboleda" },
-      { name: "Atiakah Keefe W. Briones" },
+      { name: "Atikah Keefe W. Briones" },
       { name: "River Lynne Celia Tagufa-Kuong" },
       { name: "Iara Kyryn G. Wanawan" },
     ],
