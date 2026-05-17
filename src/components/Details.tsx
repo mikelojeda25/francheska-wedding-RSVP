@@ -19,6 +19,7 @@ const cards = [
     title: "Dress Code",
     primary: "Black Tie Optional",
     secondary: "Dusty blue & champagne encouraged",
+    colors: ["#B0AEAE", "#797B84", "#86AFCD", "#7A8DA6"],
   },
 ];
 
@@ -105,7 +106,25 @@ export default function Details() {
                 className="text-wedding-grey text-sm"
                 style={{ fontFamily: '"Inter", sans-serif' }}
               >
-                {card.secondary}
+                {card.colors ? (
+                  <div className="flex gap-2 mt-1">
+                    {card.colors.map((color) => (
+                      <div
+                        key={color}
+                        className="w-8 h-8 rounded-full border border-wedding-darkcream shadow-sm"
+                        style={{ backgroundColor: color }}
+                        title={color}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <p
+                    className="text-wedding-grey text-sm"
+                    style={{ fontFamily: '"Inter", sans-serif' }}
+                  >
+                    {card.secondary}
+                  </p>
+                )}
               </p>
             </motion.div>
           ))}
@@ -176,16 +195,57 @@ export default function Details() {
           ))}
         </div>
       </div>
-      <div className="w-full flex justify-center pb-20 px-5">
-        <iframe
-          title="Casa Macoto Beach Resort Map"
-          src="https://www.google.com/maps?q=Casa+Macoto+Beach+Resort+La+Union+Philippines&output=embed"
-          className="w-full  max-w-5xl rounded-xl"
-          height="350"
-          loading="lazy"
-          style={{ border: 0 }}
-          allowFullScreen
-        />
+      <div className="w-full flex flex-col items-center pb-20 px-5">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.5 }}
+          className="text-center mb-8"
+        >
+          <h2
+            className="text-4xl md:text-5xl text-wedding-slate font-bold tracking-widest mt-5 -mb-5"
+            style={{ fontFamily: '"Great Vibes", cursive' }}
+          >
+            Find Us
+          </h2>
+        </motion.div>
+
+        {/* Map container */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2, delay: 0.2 }}
+          className="w-full max-w-5xl rounded-2xl overflow-hidden shadow-md border border-wedding-darkcream"
+        >
+          <iframe
+            title="Casa Macoto Beach Resort Map"
+            src="https://www.google.com/maps?q=Casa+Macoto+Beach+Resort+La+Union+Philippines&output=embed"
+            className="w-full"
+            height="380"
+            loading="lazy"
+            style={{ border: 0, display: "block" }}
+            allowFullScreen
+          />
+        </motion.div>
+
+        {/* Bottom label */}
+        <motion.a
+          href="https://maps.google.com/?q=Casa+Macoto+Beach+Resort+La+Union+Philippines"
+          target="_blank"
+          rel="noopener noreferrer"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.4 }}
+          className="mt-4 flex items-center gap-1.5 text-wedding-steel/70 hover:text-wedding-steel transition-colors text-xs tracking-widest uppercase"
+          style={{ fontFamily: '"Inter", sans-serif' }}
+        >
+          <MapPin className="w-3 h-3" strokeWidth={1.5} />
+          Open in Google Maps
+        </motion.a>
       </div>
     </section>
   );

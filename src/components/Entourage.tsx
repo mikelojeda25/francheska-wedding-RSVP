@@ -17,6 +17,63 @@ interface EntourageGroup {
   rowGroup?: string;
   color?: PillColor;
 }
+// ─── Shimmer stars ────────────────────────────────────────────────────────────
+const stars = Array.from({ length: 24 }, (_, i) => ({
+  id: i,
+  top: `${(i * 37.3) % 100}%`,
+  left: `${(i * 61.7) % 100}%`,
+  size: (i % 3) + 3,        // 3px, 4px, 5px
+  duration: (i % 3) + 2,    // 2s, 3s, 4s
+  delay: (i * 0.4) % 4,
+  isLarge: i % 5 === 0,     // every 5th = malaking sparkle
+}));
+
+function ShimmerStars() {
+  return (
+    <>
+      {stars.map((star) => (
+        <motion.div
+          key={star.id}
+          className="absolute pointer-events-none flex items-center justify-center"
+          style={{ top: star.top, left: star.left }}
+          animate={{ opacity: [0, 1, 0], scale: [0.3, 1, 0.3], rotate: [0, 90, 180] }}
+          transition={{
+            duration: star.duration,
+            delay: star.delay,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        >
+          {star.isLarge ? (
+            /* Big 4-point sparkle ✦ */
+            <svg
+              width={star.size * 6}
+              height={star.size * 6}
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <path
+                d="M12 2 L13.5 10.5 L22 12 L13.5 13.5 L12 22 L10.5 13.5 L2 12 L10.5 10.5 Z"
+                fill="white"
+                fillOpacity={0.95}
+              />
+            </svg>
+          ) : (
+            /* Small dot star */
+            <div
+              className="rounded-full bg-white"
+              style={{
+                width: star.size * 2,
+                height: star.size * 2,
+                boxShadow: `0 0 ${star.size * 3}px ${star.size}px rgba(255,255,255,0.6)`,
+              }}
+            />
+          )}
+        </motion.div>
+      ))}
+    </>
+  );
+}
 
 // ─── Color palettes ───────────────────────────────────────────────────────────
 const colorStyles: Record<
@@ -291,7 +348,7 @@ function GroupHeader({
   };
 
   return (
-    <div className={`text-center ${compact ? "mb-2" : "mb-3 md:mb-5"}`}>
+    <div className={`text-center ${compact ? "mb-2" : "mb-3 md:mb-5"}`} >
       <p
         className={`uppercase tracking-[0.3em] mb-0.5 ${labelColor[color]} ${
           compact ? "text-[10px] md:text-[10px]" : "text-[11px] md:text-xs"
@@ -473,6 +530,7 @@ export default function Entourage() {
       id="Entourage"
       className="relative w-full flex flex-col items-center bg-wedding-slate overflow-hidden py-16 md:py-24 px-4 md:px-5"
     >
+      <ShimmerStars />
       <motion.div
         custom={0}
         variants={blobVariants}
@@ -507,7 +565,7 @@ export default function Entourage() {
           className="text-center mb-10 md:mb-16"
         >
           <h1
-            className="text-5xl md:text-7xl text-wedding-warmcream font-bold tracking-widest drop-shadow-lg pt-5"
+            className="text-5xl md:text-7xl text-wedding-warmcream font-bold tracking-widest drop-shadow-lg pt-8 lg:pt-5"
             style={{ fontFamily: '"Great Vibes", cursive' }}
           >
             Entourage

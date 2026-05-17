@@ -149,7 +149,7 @@ export default function Rules() {
   return (
     <section
       id="Rules"
-      className="relative w-full flex flex-col items-center bg-wedding-slate overflow-hidden py-25 px-5"
+      className="relative w-full flex flex-col items-center bg-wedding-slate overflow-hidden py-25 px-5 lg:pt-30"
     >
       {/* Blobs */}
       <motion.div custom={0} variants={blobVariants} animate="animate"

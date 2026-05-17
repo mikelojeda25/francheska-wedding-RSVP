@@ -41,7 +41,7 @@ export default function Home() {
       />
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-wedding-grey/70" />
+      <div className="absolute inset-0 bg-wedding-grey/80" />
 
       {/* Content */}
       <div className="relative z-10 flex h-full flex-col items-center justify-center">
@@ -70,7 +70,7 @@ export default function Home() {
             <motion.p
               {...fadeUp(0.15)}
               className="mt-4 text-white tracking-[0.75em] font-medium uppercase text-[2rem]"
-              style={{ textShadow: "2px 1px 0px #C2A378" }}
+              style={{ textShadow: "2px 1px 0px #C2A378", fontFamily: "'Cormorant Garamond', serif" }}
             >
               Wedding Celebration
             </motion.p>
@@ -98,7 +98,7 @@ export default function Home() {
               >
                 <Heart
                   className="w-8 h-8"
-                  fill="#7A8DA6"
+                  fill="#EBB26A"
                   stroke="#ffffff"
                   strokeWidth={0.5}
                 />
@@ -114,7 +114,7 @@ export default function Home() {
             <motion.p
               {...fadeUp(0.15)}
               className="mt-4 text-white tracking-[0.2em] font-bold uppercase text-[1.25rem]"
-              style={{ textShadow: "2px 1px 0px #C2A378" }}
+              style={{ textShadow: "2px 1px 0px #C2A378", fontFamily: "'Cormorant Garamond', serif" }}
             >
               Wedding Celebration
             </motion.p>

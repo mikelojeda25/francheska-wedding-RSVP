@@ -204,7 +204,7 @@ export default function RSVPSection() {
           className="text-center mb-12"
         >
           <h1
-            className="text-5xl md:text-7xl text-wedding-slate font-bold tracking-widest drop-shadow-sm"
+            className="text-5xl md:text-7xl text-wedding-slate font-bold tracking-widest drop-shadow-sm pt-8 lg:pt-0"
           >
             RSVP
           </h1>

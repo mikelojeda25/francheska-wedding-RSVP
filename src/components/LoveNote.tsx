@@ -261,7 +261,7 @@ export default function LoveNote() {
 
         <div>
           <h1
-            className="text-center text-4xl md:text-7xl text-wedding-warmcream font-bold tracking-widest drop-shadow-lg"
+            className="text-center text-5xl md:text-7xl text-wedding-warmcream font-bold tracking-widest drop-shadow-lg"
             style={{ fontFamily: '"Great Vibes", cursive' }}
           >
             Devotion
