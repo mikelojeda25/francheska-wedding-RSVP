@@ -6,7 +6,7 @@ export default function Loader({ onFinish }: { onFinish?: () => void }) {
   const [isLeaving, setIsLeaving] = useState(false)
 
   useEffect(() => {
-    const t = setTimeout(() => setIsLeaving(true), 1800)
+    const t = setTimeout(() => setIsLeaving(true), 2500)
     return () => clearTimeout(t)
   }, [])
 
@@ -41,19 +41,29 @@ export default function Loader({ onFinish }: { onFinish?: () => void }) {
 
           {/* MONOGRAM */}
           <div
-            className="flex items-center gap-3 text-white"
+            className="flex items-center gap-5 text-white"
             style={{ fontFamily: "'Cormorant Garamond', serif" }}
           >
-            <span className="text-5xl tracking-widest">R</span>
+            <span
+              className="text-8xl font-semibold tracking-[0.15em]"
+              style={{ textShadow: "0 2px 20px rgba(255,255,255,0.3)" }}
+            >
+              R
+            </span>
 
             <motion.div
               animate={{ scale: [1, 1.1, 1], opacity: [0.6, 1, 0.6] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
-              <Heart className="w-6 h-6" />
+              <Heart className="w-8 h-8 mr-5" />
             </motion.div>
 
-            <span className="text-5xl tracking-widest">F</span>
+            <span
+              className="text-8xl font-semibold tracking-[0.15em]"
+              style={{ textShadow: "0 2px 20px rgba(255,255,255,0.3)" }}
+            >
+              F
+            </span>
           </div>
 
           {/* SUBTEXT */}
@@ -61,7 +71,7 @@ export default function Loader({ onFinish }: { onFinish?: () => void }) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 0.7, y: 0 }}
             transition={{ delay: 0.5, duration: 1 }}
-            className="mt-4 text-white/80 tracking-[0.4em] text-xs uppercase"
+            className="mt-4 text-white/80 tracking-[0.4em] text-xs uppercase font-bold"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             A Wedding Invitation

@@ -8,7 +8,7 @@ const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
   transition: {
-    delay: 2.5 + delay,
+    delay: 3.4 + delay,
     duration: 0.8,
     ease: "easeInOut" as const,
   },
