@@ -213,7 +213,7 @@ export default function RSVPSection() {
             className="text-wedding-grey mt-2 tracking-wide text-sm md:text-base"
             style={{ fontFamily: '"Inter", sans-serif' }}
           >
-            Please confirm your attendance by May 30, 2026
+            Please confirm your attendance by May 31, 2026
           </p>
         </motion.div>
 

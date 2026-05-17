@@ -180,7 +180,7 @@ const groups: EntourageGroup[] = [
       { name: "Cathy Ruiz" },
       { name: "Rochelle Peters" },
       { name: "Jacqueline Patin" },
-      { name: "April Cyprene Potpoten" },
+      { name: "Cyprene Potpoten" },
       { name: "Evinia Arzadon" },
       { name: "Myline Deleon" },
       { name: "Grace Guatno" },
@@ -197,7 +197,7 @@ const groups: EntourageGroup[] = [
   },
   {
     title: "Best Man",
-    members: [{ name: "Ianro Wanawan" }],
+    members: [{ name: "Arnold Wanawan Chalis Jr." }],
     columns: 1,
     highlight: true,
     color: "pearl",
