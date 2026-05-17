@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 // ─── Sparkle canvas background ───────────────────────────────────────────────
-function SparkleBackground() {
+function ButterflyBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -20,68 +20,108 @@ function SparkleBackground() {
     resize();
     window.addEventListener("resize", resize);
 
-    const COUNT = 65;
-    const goldColors = [
-      [194, 163, 120],
-      [201, 191, 143],
-      [147, 115, 65],
-      [255, 225, 150],
+    const COUNT = 18;
+    const colors = [
+      [134, 175, 205],  // baby blue
+      [180, 210, 230],  // light blue
+      [194, 163, 120],  // gold
+      [200, 185, 210],  // lavender
     ];
 
-    const sparkles = Array.from({ length: COUNT }, (_, idx) => ({
+    const butterflies = Array.from({ length: COUNT }, (_, i) => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      size: Math.random() * 3.5 + 1,
+      size: Math.random() * 10 + 8,
+      speedX: (Math.random() - 0.5) * 0.6,
+      speedY: (Math.random() - 0.5) * 0.4 - 0.2,
       phase: Math.random() * Math.PI * 2,
-      speed: Math.random() * 0.012 + 0.004,
-      drift: (Math.random() - 0.5) * 0.25,
-      colorIdx: idx % goldColors.length,
+      flapSpeed: Math.random() * 0.08 + 0.06,
+      colorIdx: i % colors.length,
+      wobble: Math.random() * 0.02 + 0.01,
+      wobbleOffset: Math.random() * Math.PI * 2,
     }));
+
+    const drawWing = (
+      ctx: CanvasRenderingContext2D,
+      size: number,
+      flap: number,
+      side: 1 | -1,
+      r: number, g: number, b: number,
+      alpha: number
+    ) => {
+      const wingSpread = size * flap * side;
+      const wingH = size * 0.75;
+
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.bezierCurveTo(
+        wingSpread * 0.4, -wingH * 0.8,
+        wingSpread * 1.1, -wingH * 0.5,
+        wingSpread * 1.0, wingH * 0.1
+      );
+      ctx.bezierCurveTo(
+        wingSpread * 0.9, wingH * 0.6,
+        wingSpread * 0.3, wingH * 0.5,
+        0, 0
+      );
+      ctx.fillStyle = `rgba(${r},${g},${b},${alpha * 0.55})`;
+      ctx.fill();
+      ctx.strokeStyle = `rgba(${r},${g},${b},${alpha * 0.8})`;
+      ctx.lineWidth = 0.5;
+      ctx.stroke();
+
+      // Lower wing
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.bezierCurveTo(
+        wingSpread * 0.5, wingH * 0.3,
+        wingSpread * 0.9, wingH * 0.9,
+        wingSpread * 0.4, wingH * 1.1
+      );
+      ctx.bezierCurveTo(
+        wingSpread * 0.1, wingH * 1.2,
+        -wingSpread * 0.1 * side, wingH * 0.6,
+        0, 0
+      );
+      ctx.fillStyle = `rgba(${r},${g},${b},${alpha * 0.4})`;
+      ctx.fill();
+    };
 
     let t = 0;
     const draw = () => {
       t++;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      sparkles.forEach((s) => {
-        const pulse = (Math.sin(t * s.speed + s.phase) + 1) / 2;
-        const alpha = pulse * 0.9 + 0.05;
-        const [r, g, b] = goldColors[s.colorIdx];
-        const cx = s.x + Math.sin(t * 0.008 + s.phase) * 6;
-        const cy = s.y + Math.cos(t * 0.006 + s.phase) * 4;
-        const sz = s.size * (0.7 + pulse * 0.5);
+      butterflies.forEach((b) => {
+        const flap = Math.abs(Math.sin(t * b.flapSpeed + b.phase));
+        const alpha = 0.5 + Math.sin(t * 0.01 + b.wobbleOffset) * 0.2;
+        const [r, g, bl] = colors[b.colorIdx];
+
+        // Gentle wobble path
+        b.x += b.speedX + Math.sin(t * b.wobble + b.wobbleOffset) * 0.4;
+        b.y += b.speedY + Math.cos(t * b.wobble * 0.7 + b.wobbleOffset) * 0.3;
+
+        // Wrap around edges
+        if (b.x < -50) b.x = canvas.width + 50;
+        if (b.x > canvas.width + 50) b.x = -50;
+        if (b.y < -50) b.y = canvas.height + 50;
+        if (b.y > canvas.height + 50) b.y = -50;
 
         ctx.save();
-        ctx.translate(cx, cy);
-        ctx.globalAlpha = alpha;
+        ctx.translate(b.x, b.y);
 
-        ctx.beginPath();
-        for (let i = 0; i < 8; i++) {
-          const angle = (i * Math.PI) / 4;
-          const rad = i % 2 === 0 ? sz : sz * 0.3;
-          i === 0
-            ? ctx.moveTo(Math.cos(angle) * rad, Math.sin(angle) * rad)
-            : ctx.lineTo(Math.cos(angle) * rad, Math.sin(angle) * rad);
-        }
-        ctx.closePath();
-        ctx.fillStyle = `rgb(${r},${g},${b})`;
-        ctx.fill();
+        // Left wing
+        drawWing(ctx, b.size, flap, -1, r, g, bl, alpha);
+        // Right wing
+        drawWing(ctx, b.size, flap, 1, r, g, bl, alpha);
 
-        const grd = ctx.createRadialGradient(0, 0, 0, 0, 0, sz * 4);
-        grd.addColorStop(0, `rgba(${r},${g},${b},${alpha * 0.35})`);
-        grd.addColorStop(1, `rgba(${r},${g},${b},0)`);
+        // Body
         ctx.beginPath();
-        ctx.arc(0, 0, sz * 4, 0, Math.PI * 2);
-        ctx.fillStyle = grd;
+        ctx.ellipse(0, 0, 1.2, b.size * 0.55, 0, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${r},${g},${bl},${alpha * 0.9})`;
         ctx.fill();
 
         ctx.restore();
-
-        s.y -= 0.15;
-        if (s.y < -10) {
-          s.y = canvas.height + 10;
-          s.x = Math.random() * canvas.width;
-        }
       });
 
       animId = requestAnimationFrame(draw);
@@ -98,7 +138,7 @@ function SparkleBackground() {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full pointer-events-none"
-      style={{ opacity: 0.75 }}
+      style={{ opacity: 1 }}
     />
   );
 }
@@ -244,13 +284,15 @@ export default function GiftGuide() {
     <section
       id="GiftGuide"
       className="relative w-full flex flex-col items-center bg-wedding-warmcream overflow-hidden py-30 px-5"
+      style={{ background: "linear-gradient(160deg, #deeef7 0%, #c5dff0 30%, #e8f3fa 65%, #d4e8f5 100%)" }}
     >
       {/* Blobs */}
       <div className="pointer-events-none absolute top-0 left-0 w-80 h-80 rounded-full bg-wedding-babyblue/10 blur-3xl -translate-x-1/2 -translate-y-1/2" />
       <div className="pointer-events-none absolute bottom-0 right-0 w-96 h-96 rounded-full bg-wedding-gold/10 blur-3xl translate-x-1/2 translate-y-1/2" />
       <div className="pointer-events-none absolute top-1/2 left-1/4 w-64 h-64 rounded-full bg-wedding-steel/5 blur-2xl" />
 
-      <SparkleBackground />
+      <ButterflyBackground />
+
 
       <div className="relative w-full max-w-5xl flex flex-col items-center">
 

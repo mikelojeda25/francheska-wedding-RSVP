@@ -140,6 +140,7 @@ export default function RSVPSection() {
     <section
       id="RSVPForm"
       className="relative w-full bg-wedding-warmcream overflow-hidden pt-17 lg:pt-25 pb-20"
+      style={{ background: "linear-gradient(160deg, #deeef7 0%, #c5dff0 30%, #e8f3fa 65%, #d4e8f5 100%)" }}
     >
       {/* Subtle decorative blobs */}
       <div className="pointer-events-none absolute top-0 left-0 w-72 h-72 rounded-full bg-wedding-babyblue/10 blur-3xl -translate-x-1/2 -translate-y-1/2" />

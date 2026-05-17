@@ -45,7 +45,8 @@ export default function Details() {
   return (
     <section
       id="Details"
-      className="relative w-full bg-wedding-babyblue/20 overflow-hidden pt-17 lg:pt-25"
+      className="relative w-full bg-wedding-babyblue/60 overflow-hidden pt-17 lg:pt-25"
+      style={{ background: "linear-gradient(160deg, #deeef7 0%, #c5dff0 30%, #e8f3fa 65%, #d4e8f5 100%)" }}
     >
       {/* Top section — header + cards */}
       <div className="w-full px-5 py-5 flex flex-col items-center">
