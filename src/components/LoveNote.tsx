@@ -317,13 +317,13 @@ export default function LoveNote() {
           </div>
           <div className="md:w-1/2 p-8 md:p-12 space-y-6 justify-between flex flex-col">
             <div>
-              <div>
+              <div className="flex justify-content items-center flex-col">
                 <h2 className="text-wedding-babyblue font-semibold text-center text-[2rem]"
                  style={{ fontFamily: '"Great Vibes", cursive' }}>
                   Anchor In Love
                 </h2>
                 <p className="text-wedding-warmcream leading-relaxed">
-                  <img src="images/WeddingLogo.png" alt="Anchor" />
+                  <img src="images/anchor-in-love.webp" alt="Anchor" className="h-80"/>
                 </p>
               </div>
             </div>

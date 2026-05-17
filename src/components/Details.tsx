@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { MapPin, Calendar, UtensilsCrossed, Clock } from "lucide-react";
+import { MapPin, Calendar, Shirt, Clock } from "lucide-react";
 
 const cards = [
   {
@@ -15,7 +15,7 @@ const cards = [
     secondary: "Save the date!",
   },
   {
-    icon: UtensilsCrossed,
+    icon: Shirt,
     title: "Dress Code",
     primary: "Black Tie Optional",
     secondary: "Dusty blue & champagne encouraged",
@@ -26,20 +26,17 @@ const schedule = [
   {
     time: "4:00 PM",
     event: "Ceremony",
-    venue: "Casa Macoto",
     description: "Join us for an intimate outdoor ceremony surrounded by blooming roses and lavender.",
   },
   {
     time: "5:00 PM",
-    event: "Cocktail Hour",
-    venue: "Terrace Lounge",
-    description: "Enjoy signature cocktails and hors d'oeuvres while mingling with family and friends.",
+    event: "Reception & Program",
+    description: "Celebrate with dinner, dancing, and unforgettable moments.",
   },
   {
     time: "6:30 PM",
-    event: "Reception",
-    venue: "Grand Ballroom",
-    description: "Celebrate with dinner, dancing, and unforgettable moments under the chandeliers.",
+    event: "Cocktail Hour",
+    description: "Enjoy signature cocktails and hors d'oeuvres while mingling with family and friends.",
   },
 ];
 
@@ -75,7 +72,7 @@ export default function Details() {
         </motion.div>
 
         {/* Cards */}
-        <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6">
           {cards.map((card, i) => (
             <motion.div
               key={card.title}
@@ -85,17 +82,19 @@ export default function Details() {
               transition={{ duration: 1, delay: i * 0.15 }}
               className="bg-white rounded-2xl p-8 flex flex-col items-center text-center shadow-sm border border-wedding-darkcream"
             >
-              <card.icon
-                className="text-wedding-steel mb-4"
-                size={32}
-                strokeWidth={1.5}
-              />
-              <h2
-                className="text-wedding-steel font-semibold text-lg mb-3 tracking-wide"
-                style={{ fontFamily: '"Inter", sans-serif' }}
-              >
-                {card.title}
-              </h2>
+              <div className="flex items-center gap-1">
+                <card.icon
+                  className="text-wedding-steel mb-4"
+                  size={32}
+                  strokeWidth={1.5}
+                />
+                <h2
+                  className="text-wedding-steel font-semibold text-lg mb-3 tracking-wide"
+                  style={{ fontFamily: '"Inter", sans-serif' }}
+                >
+                  {card.title}
+                </h2>
+              </div>
               <p
                 className="text-wedding-slate font-medium text-sm md:text-base leading-relaxed mb-1"
                 style={{ fontFamily: '"Inter", sans-serif' }}
@@ -114,7 +113,7 @@ export default function Details() {
       </div>
 
       {/* Schedule section */}
-      <div className="w-full px-5 py-20 flex flex-col items-center">
+      <div className="w-full px-5 py-5 flex flex-col items-center">
         <div className="w-full max-w-5xl bg-white rounded-2xl shadow-sm border border-wedding-darkcream px-8 md:px-14 py-10">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -154,7 +153,7 @@ export default function Details() {
               <div className={`flex-1 ${i < schedule.length - 1 ? "pb-10" : ""}`}>
                 <div className="flex items-center justify-between mb-1">
                   <h3
-                    className="text-wedding-steel font-semibold text-base md:text-lg tracking-wide"
+                    className="text-wedding-steel font-semibold text-base md:text-lg tracking-wide w-[120px]"
                     style={{ fontFamily: '"Inter", sans-serif' }}
                   >
                     {item.event}
@@ -166,13 +165,6 @@ export default function Details() {
                     {item.time}
                   </span>
                 </div>
-                <div
-                  className="flex items-center gap-1 text-wedding-grey text-xs mb-2"
-                  style={{ fontFamily: '"Inter", sans-serif' }}
-                >
-                  <MapPin size={11} strokeWidth={1.5} />
-                  <span>{item.venue}</span>
-                </div>
                 <p
                   className="text-wedding-slate/80 text-sm leading-relaxed"
                   style={{ fontFamily: '"Inter", sans-serif' }}
@@ -183,6 +175,17 @@ export default function Details() {
             </motion.div>
           ))}
         </div>
+      </div>
+      <div className="w-full flex justify-center pb-20 px-5">
+        <iframe
+          title="Casa Macoto Beach Resort Map"
+          src="https://www.google.com/maps?q=Casa+Macoto+Beach+Resort+La+Union+Philippines&output=embed"
+          className="w-full  max-w-5xl rounded-xl"
+          height="350"
+          loading="lazy"
+          style={{ border: 0 }}
+          allowFullScreen
+        />
       </div>
     </section>
   );
