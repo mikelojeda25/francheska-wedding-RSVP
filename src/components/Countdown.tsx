@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-const WEDDING_DATE = "2026-07-25T16:00:00"
+const WEDDING_DATE = "2026-07-25T00:00:00"
 
 export default function Countdown() {
   const [timeLeft, setTimeLeft] = useState(getTimeRemaining())

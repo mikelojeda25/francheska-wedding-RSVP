@@ -25,8 +25,8 @@ export default function Navbar() {
   return (
     <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
       scrolled 
-        ? "bg-wedding-babyblue/90 backdrop-blur-md shadow-lg" 
-        : "bg-wedding-babyblue/60 backdrop-blur-sm"
+        ? "bg-wedding-babyblue/90 shadow-lg" 
+        : "bg-wedding-babyblue/60"
     }`}>
 
       {/* DESKTOP */}
@@ -80,7 +80,7 @@ export default function Navbar() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "tween", duration: 0.35 }}
-            className="fixed top-0 right-0 h-screen w-[92%] bg-wedding-babyblue backdrop-blur-md flex flex-col items-center justify-center gap-8 text-sm tracking-[0.2em] uppercase text-white/90 text-xl"
+            className="fixed top-0 right-0 h-screen w-[92%] bg-wedding-babyblue flex flex-col items-center justify-center gap-8 text-sm tracking-[0.2em] uppercase text-white/90 text-xl"
           >
 
             {links.map((item, i) => (
@@ -95,9 +95,6 @@ export default function Navbar() {
                 {item.label}
               </motion.a>
             ))}
-
-            {/* Decorative heart bottom */}
-            <Heart className="absolute bottom-10 w-6 h-6 text-white/30" fill="white" stroke="white" />
           </motion.div>
         )}
       </AnimatePresence>

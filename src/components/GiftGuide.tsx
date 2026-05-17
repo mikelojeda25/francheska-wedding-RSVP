@@ -174,7 +174,7 @@ function Lightbox({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.25 }}
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
         onClick={onClose}
       >
         {/* Close button */}
@@ -204,7 +204,7 @@ function Lightbox({
           {/* Label */}
           <p
             className="text-xs uppercase tracking-[0.3em] text-wedding-gold mb-3 font-light"
-            style={{ fontFamily: '"Cormorant Garamond", serif' }}
+           
           >
             {label}
           </p>
@@ -296,7 +296,7 @@ export default function GiftGuide() {
                   viewport={{ once: true }}
                   transition={{ duration: 1, delay: 0.3 + i * 0.12 }}
                   className="text-wedding-slate text-base md:text-lg font-light leading-snug"
-                  style={{ fontFamily: '"Cormorant Garamond", serif' }}
+                  
                 >
                   {line.text}{" "}
                   <span className="not-italic">{line.emoji}</span>

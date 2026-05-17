@@ -5,15 +5,8 @@ const Footer = () => {
         <img
         src="/images/Chibi.webp"
         alt="R&F"
-        className="absolute left-1/2 -translate-x-1/2 bottom-50 lg:bottom-70 lg:left-auto lg:translate-x-0 lg:right-80 w-40 md:w-56 z-10 pointer-events-none"
+        className="absolute left-1/2 -translate-x-1/2 bottom-50 lg:bottom-70 lg:left-auto lg:translate-x-0 lg:right-[130px] w-40 md:w-56 z-10 pointer-events-none"
         />
-
-        <img
-        src="/images/anchor-in-love.webp"
-        alt="R&F"
-        className="hidden lg:block absolute left-1/2 -translate-x-1/2 bottom-50 lg:bottom-70 lg:left-80 lg:translate-x-0 w-40 md:w-56 z-10 pointer-events-none"
-        />
-
         <div
           className="absolute inset-0"
           style={{

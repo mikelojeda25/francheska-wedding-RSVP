@@ -294,7 +294,7 @@ function GroupHeader({
     <div className={`text-center ${compact ? "mb-2" : "mb-3 md:mb-5"}`}>
       <p
         className={`uppercase tracking-[0.3em] mb-0.5 ${labelColor[color]} ${
-          compact ? "text-[8px] md:text-[10px]" : "text-[10px] md:text-xs"
+          compact ? "text-[10px] md:text-[10px]" : "text-[11px] md:text-xs"
         }`}
         style={serif}
       >
@@ -302,7 +302,7 @@ function GroupHeader({
       </p>
       <h3
         className={`text-wedding-warmcream font-light ${
-          compact ? "text-[15px] md:text-2xl" : "text-lg md:text-3xl"
+          compact ? "text-[18px] md:text-2xl" : "text-lg md:text-3xl"
         }`}
         style={serif}
       >
@@ -333,7 +333,7 @@ function PersonPill({
       `}
     >
       <span
-        className={`font-light leading-tight ${styles.text} text-[11px] md:text-[15px]`}
+        className={`font-light leading-tight ${styles.text} text-[13px] md:text-[15px]`}
         style={serif}
       >
         {person.name}

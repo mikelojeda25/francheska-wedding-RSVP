@@ -295,7 +295,7 @@ export default function LoveNote() {
 
         <div
           ref={cardRef}
-          className="reveal-on-scroll mt-10 md:mt-20 bg-white/12 md:bg-white/10 md:backdrop-blur-xl border border-wedding-softgray/30 rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row"
+          className="reveal-on-scroll mt-10 md:mt-20 bg-white/12 md:bg-white/10 border border-wedding-softgray/30 rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row"
         >
           {/* Photo */}
           <div className="md:w-1/2 h-[300px] md:h-auto">

@@ -1,30 +1,46 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, lazy, Suspense } from "react"
 import { Routes, Route } from "react-router-dom"
 import Loader from "./components/Loader"
-import RSVPForm from "./components/RSVPForm"
 import Home from "./components/Home"
-import RSVPList from "./components/GuestList"
 import Navbar from "./components/Navbar"
 import LoveNote from "./components/LoveNote"
-import Details from "./components/Details"
-import Entourage from "./components/Entourage"
-import GiftGuide from "./components/GiftGuide"
-import Rules from "./components/Rules"
-import Footer from "./components/Footer"
 
+const Details = lazy(() => import("./components/Details"))
+const Entourage = lazy(() => import("./components/Entourage"))
+const GiftGuide = lazy(() => import("./components/GiftGuide"))
+const Rules = lazy(() => import("./components/Rules"))
+const RSVPForm = lazy(() => import("./components/RSVPForm"))
+const Footer = lazy(() => import("./components/Footer"))
+const RSVPList = lazy(() => import("./components/GuestList"))
 
 export default function App() {
   const [loading, setLoading] = useState(true)
+  const [fontsReady, setFontsReady] = useState(false)
 
-    useEffect(() => {
-    window.scrollTo(0, 0)
+  useEffect(() => {
+    document.fonts.ready.then(() => setFontsReady(true))
   }, [])
+
+  useEffect(() => {
+    if (loading || !fontsReady) {
+      document.body.style.overflow = "hidden"
+      document.body.style.position = "fixed"
+      document.body.style.width = "100%"
+    } else {
+      document.body.style.overflow = ""
+      document.body.style.position = ""
+      document.body.style.width = ""
+      window.scrollTo(0, 0)
+    }
+  }, [loading, fontsReady])
+
+  const isReady = !loading && fontsReady
 
   return (
     <>
-      {loading && <Loader onFinish={() => setLoading(false)} />}
+      {!isReady && <Loader onFinish={() => setLoading(false)} />}
 
-      <div style={{ visibility: loading ? "hidden" : "visible" }}>
+      <div style={{ visibility: isReady ? "visible" : "hidden" }}>
         <Routes>
           <Route
             path="/"
@@ -33,16 +49,25 @@ export default function App() {
                 <Navbar />
                 <Home />
                 <LoveNote />
-                <Details />
-                <Entourage />
-                <GiftGuide />
-                <Rules />
-                <RSVPForm />
-                <Footer />
+                <Suspense fallback={null}>
+                  <Details />
+                  <Entourage />
+                  <GiftGuide />
+                  <Rules />
+                  <RSVPForm />
+                  <Footer />
+                </Suspense>
               </>
             }
           />
-          <Route path="/list" element={<RSVPList />} />
+          <Route
+            path="/list"
+            element={
+              <Suspense fallback={null}>
+                <RSVPList />
+              </Suspense>
+            }
+          />
         </Routes>
       </div>
     </>
