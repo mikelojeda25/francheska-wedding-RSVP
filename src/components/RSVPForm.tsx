@@ -64,7 +64,7 @@ export default function RSVPSection() {
 
   const handleSubmit = async () => {
     if (hasAgeError) return
-    if (!form.name || !form.email || !form.attending || guests.some((g) => !g.name || !g.age)) {
+    if (!form.name || !form.attending || guests.some((g) => !g.name || !g.age)) {
       setError('Please fill in all required fields.')
       return
     }
@@ -72,18 +72,21 @@ export default function RSVPSection() {
     setSubmitting(true)
     setError(null)
 
-    const trimmedEmail = form.email.trim().toLowerCase()
+    const trimmedEmail = form.email?.trim().toLowerCase() || ''
 
-    const { data: existingEmail } = await supabase
-      .from('rsvp')
-      .select('id')
-      .eq('email', trimmedEmail)
-      .maybeSingle()
+    // Only check for duplicate email if one was provided
+    if (trimmedEmail.length > 0) {
+      const { data: existingEmail } = await supabase
+        .from('rsvp')
+        .select('id')
+        .eq('email', trimmedEmail)
+        .maybeSingle()
 
-    if (existingEmail) {
-      setError('An RSVP using this email already exists.')
-      setSubmitting(false)
-      return
+      if (existingEmail) {
+        setError('An RSVP using this email already exists.')
+        setSubmitting(false)
+        return
+      }
     }
 
     try {
@@ -91,7 +94,7 @@ export default function RSVPSection() {
         .from('rsvp')
         .insert({
           name: form.name.trim(),
-          email: trimmedEmail,
+          email: trimmedEmail || null,
           attending: form.attending === 'yes',
           dietary_restrictions: form.dietary_restrictions.trim() || null,
           message: form.message.trim() || null,
@@ -238,8 +241,9 @@ export default function RSVPSection() {
               />
             </div>
             <div className="flex flex-col gap-1">
+              {/* Email is optional — no asterisk */}
               <label className="text-xs text-wedding-grey tracking-wide">
-                Email <span className="text-wedding-maroon">*</span>
+                Email
               </label>
               <input
                 type="email"
@@ -358,8 +362,8 @@ export default function RSVPSection() {
                   ))}
                 </AnimatePresence>
 
-                {/* Add guest button — always visible while attending=yes */}
-                {!locked && (
+                {/* Add guest — hidden once 1 guest is added */}
+                {!locked && guests.length < 1 && (
                   <button
                     onClick={addGuest}
                     className="w-full mt-1 py-2.5 px-3 text-sm text-wedding-steel border border-dashed border-wedding-darkcream rounded-xl hover:bg-wedding-warmcream hover:border-wedding-steel/40 transition-colors flex items-center justify-center gap-2"

@@ -10,6 +10,7 @@ import Details from "./components/Details"
 import Entourage from "./components/Entourage"
 import GiftGuide from "./components/GiftGuide"
 import Rules from "./components/Rules"
+import Footer from "./components/Footer"
 
 
 export default function App() {
@@ -37,6 +38,7 @@ export default function App() {
                 <GiftGuide />
                 <Rules />
                 <RSVPForm />
+                <Footer />
               </>
             }
           />
