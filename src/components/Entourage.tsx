@@ -206,6 +206,11 @@ const groups: EntourageGroup[] = [
       { name: "Evelyn R. Mulleno" },
       { name: "Madelaine Tawaran" },
       { name: "Noeta Dalog" },
+
+      { name: "Marieta Camat" },
+      { name: "Jane De Chavez" },
+      { name: "Cathy De Chavez" },
+      { name: "Aileen Bermudez Baldo" },
     ],
     columns: 1,
     color: "dustyblue",
