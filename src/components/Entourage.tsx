@@ -1,7 +1,14 @@
 import { motion } from "framer-motion";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
-type PillColor = "gold" | "pearl" | "dustyblue" | "pink" | "sage" | "violet" | "default";
+type PillColor =
+  | "gold"
+  | "pearl"
+  | "dustyblue"
+  | "pink"
+  | "sage"
+  | "violet"
+  | "default";
 
 interface EntouragePerson {
   name: string;
@@ -36,7 +43,11 @@ function ShimmerStars() {
           key={star.id}
           className="absolute pointer-events-none flex items-center justify-center"
           style={{ top: star.top, left: star.left }}
-          animate={{ opacity: [0, 1, 0], scale: [0.3, 1, 0.3], rotate: [0, 90, 180] }}
+          animate={{
+            opacity: [0, 1, 0],
+            scale: [0.3, 1, 0.3],
+            rotate: [0, 90, 180],
+          }}
           transition={{
             duration: star.duration,
             delay: star.delay,
@@ -45,7 +56,12 @@ function ShimmerStars() {
           }}
         >
           {star.isLarge ? (
-            <svg width={star.size * 6} height={star.size * 6} viewBox="0 0 24 24" fill="none">
+            <svg
+              width={star.size * 6}
+              height={star.size * 6}
+              viewBox="0 0 24 24"
+              fill="none"
+            >
               <path
                 d="M12 2 L13.5 10.5 L22 12 L13.5 13.5 L12 22 L10.5 13.5 L2 12 L10.5 10.5 Z"
                 fill="white"
@@ -154,7 +170,7 @@ const groups: EntourageGroup[] = [
       { name: "Constante Arzadon" },
       { name: "Albert Deleon" },
       { name: "Rafael Saltiban" },
-      { name: "Joel Gureta" },
+      { name: "Joel Ureta" },
       { name: "Bryan Jardiolin" },
       { name: "June Dacoco" },
       { name: "Ferdie Soriano" },
@@ -184,7 +200,7 @@ const groups: EntourageGroup[] = [
       { name: "Evinia Arzadon" },
       { name: "Myline Deleon" },
       { name: "Grace Guatno" },
-      { name: "Mayanne Czarina Gureta" },
+      { name: "Mayanne Czarina Ureta" },
       { name: "Ellani M. Jardiolin" },
       { name: "Eliza C. Orquez" },
       { name: "Evelyn R. Mulleno" },
@@ -244,7 +260,7 @@ const groups: EntourageGroup[] = [
   {
     title: "Flower Girls",
     members: [
-      { name: "Riona Arabelle P. Arboleda" },
+      { name: "Riona Arabelle Arboleda" },
       { name: "Atikah Keefe W. Briones" },
       { name: "River Lynne Celia Tagufa-Kuong" },
       { name: "Iara Kyryn G. Wanawan" },
@@ -426,12 +442,20 @@ function PairedMembersGrid({
       {Array.from({ length: maxLen }).map((_, i) => (
         <>
           {leftMembers[i] ? (
-            <PersonPill key={`l-${i}`} person={leftMembers[i]} color={leftColor} />
+            <PersonPill
+              key={`l-${i}`}
+              person={leftMembers[i]}
+              color={leftColor}
+            />
           ) : (
             <div key={`l-empty-${i}`} />
           )}
           {rightMembers[i] ? (
-            <PersonPill key={`r-${i}`} person={rightMembers[i]} color={rightColor} />
+            <PersonPill
+              key={`r-${i}`}
+              person={rightMembers[i]}
+              color={rightColor}
+            />
           ) : (
             <div key={`r-empty-${i}`} />
           )}
@@ -475,7 +499,11 @@ function RowGroupSection({
 }) {
   const n = siblings.length;
   const mobileColClass =
-    n === 3 ? "grid-cols-1 sm:grid-cols-3" : n === 2 ? "grid-cols-2" : "grid-cols-1";
+    n === 3
+      ? "grid-cols-1 sm:grid-cols-3"
+      : n === 2
+        ? "grid-cols-2"
+        : "grid-cols-1";
 
   return (
     <motion.div
@@ -510,7 +538,10 @@ function RowGroupSection({
       ) : (
         <div className={`md:hidden grid ${mobileColClass} gap-2 items-start`}>
           {siblings.map((s) => (
-            <div key={s.title} className="flex flex-col min-w-0 w-full max-w-xs mx-auto sm:max-w-none">
+            <div
+              key={s.title}
+              className="flex flex-col min-w-0 w-full max-w-xs mx-auto sm:max-w-none"
+            >
               <GroupHeader
                 title={s.title}
                 subtitle={s.subtitle}
@@ -671,7 +702,7 @@ export default function Entourage() {
               if (rendered.has(group.rowGroup)) return null;
               rendered.add(group.rowGroup);
               const siblings = groups.filter(
-                (g) => g.rowGroup === group.rowGroup
+                (g) => g.rowGroup === group.rowGroup,
               );
               return (
                 <RowGroupSection
